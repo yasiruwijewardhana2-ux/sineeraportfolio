@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SINEERA — Frames &amp; Photography</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0a09' rx='14'/%3E%3Cpath d='M14,86 L30,86 L58,20 L42,20 Z' fill='%23f5a83c'/%3E%3Cpath d='M86,86 L70,86 L42,20 L58,20 Z' fill='%23d9661f'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    SINEERA — CENTRAL IMAGE CONFIG
@@ -35,43 +36,25 @@
       commercial: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462672/WhatsApp_Image_2026-08-23_at_9.56.17_AM_2.jpg"
     },
     featured: [
-      {
-        title: "",
-        category: "Weddings",
-        location: "",
-        img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462724/WhatsApp_Image_2026-08-23_at_9.56.44_AM_1.jpg"
-      },
-      {
-        title: "",
-        category: "Portraits",
-        location: "",
-        img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462712/WhatsApp_Image_2026-08-23_at_9.56.35_AM_1.jpg"
-      },
-      {
-        title: "",
-        category: "Events",
-        location: "",
-        img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462702/WhatsApp_Image_2026-08-23_at_9.56.22_AM_1.jpg"
-      },
-      {
-        title: "",
-        category: "Fashion",
-        location: "",
-        img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462736/WhatsApp_Image_2026-08-23_at_9.56.50_AM.jpg"
-      },
-      {
-        title: "",
-        category: "Travel",
-        location: "",
-        img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462670/WhatsApp_Image_2026-08-23_at_9.56.07_AM.jpg"
-      },
-      {
-        title: "",
-        category: "Commercial",
-        location: "",
-        img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462672/WhatsApp_Image_2026-08-23_at_9.56.19_AM.jpg"
-      }
+      { title: "", category: "Weddings",   location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462724/WhatsApp_Image_2026-08-23_at_9.56.44_AM_1.jpg" },
+      { title: "", category: "Portraits",  location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462712/WhatsApp_Image_2026-08-23_at_9.56.35_AM_1.jpg" },
+      { title: "", category: "Events",     location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462702/WhatsApp_Image_2026-08-23_at_9.56.22_AM_1.jpg" },
+      { title: "", category: "Fashion",    location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462736/WhatsApp_Image_2026-08-23_at_9.56.50_AM.jpg" },
+      { title: "", category: "Travel",     location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462670/WhatsApp_Image_2026-08-23_at_9.56.07_AM.jpg" },
+      { title: "", category: "Commercial", location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462672/WhatsApp_Image_2026-08-23_at_9.56.19_AM.jpg" }
     ]
+  };
+
+  /* Photography-vernacular metadata used across the redesign — the
+     numbers/lenses a shoot in that genre would actually be shot on.
+     Edit freely; nothing here touches the image URLs above. */
+  window.SINEERA_META = {
+    weddings:   { frame: "F01", lens: "50mm", settings: "f/1.8 · 1/250s" },
+    portraits:  { frame: "F02", lens: "85mm", settings: "f/1.4 · 1/200s" },
+    events:     { frame: "F03", lens: "35mm", settings: "f/2.0 · 1/160s" },
+    fashion:    { frame: "F04", lens: "70mm", settings: "f/2.8 · 1/500s" },
+    travel:     { frame: "F05", lens: "24mm", settings: "f/5.6 · 1/320s" },
+    commercial: { frame: "F06", lens: "100mm", settings: "f/8 · 1/125s" }
   };
 </script>
 
@@ -83,11 +66,13 @@
     --paper:#f3efe8;
     --paper-dim:#a7a196;
     --line:rgba(243,239,232,0.14);
-    --ember:#e8792e;
-    --ember-2:#f4a340;
+    --ember:#d9661f;
+    --ember-2:#f5a83c;
+    --ember-3:#ffd98a;
     --ff-display:'Big Shoulders Display', sans-serif;
     --ff-serif:'Instrument Serif', serif;
     --ff-body:'Inter', sans-serif;
+    --ff-mono:'JetBrains Mono', monospace;
   }
 
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -99,6 +84,7 @@
     font-weight:300;
     overflow-x:hidden;
     -webkit-font-smoothing:antialiased;
+    position:relative;
   }
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
@@ -107,15 +93,24 @@
 
   a{color:inherit;text-decoration:none;}
   img{display:block;width:100%;height:100%;object-fit:cover;}
-  ::selection{background:var(--ember);color:var(--ink);}
+  ::selection{background:var(--ember-2);color:var(--ink);}
+
+  /* film-grain atmosphere — static, cheap, sits above bg below content */
+  body::before{
+    content:'';
+    position:fixed; inset:0; z-index:1; pointer-events:none;
+    opacity:0.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
 
   .eyebrow{
-    font-family:var(--ff-body);
+    font-family:var(--ff-mono);
     font-size:11px;
-    letter-spacing:0.32em;
+    letter-spacing:0.28em;
     text-transform:uppercase;
     color:var(--ember-2);
     font-weight:500;
+    display:inline-flex; align-items:center; gap:12px;
   }
 
   h1,h2,h3,.disp{
@@ -129,8 +124,28 @@
 
   :focus-visible{ outline:2px solid var(--ember-2); outline-offset:3px; }
 
+  /* ---------- shared mark (sprite) ---------- */
+  .mark{ display:block; flex:none; }
+  .mark path{ transition:opacity .25s ease; }
+
   /* ---------- layout shell ---------- */
   .wrap{ max-width:1440px; margin:0 auto; padding:0 clamp(20px,5vw,64px); }
+
+  /* ---------- shutter intro ---------- */
+  .shutter{
+    position:fixed; inset:0; z-index:400; background:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    transition:opacity .7s ease, visibility .7s ease;
+  }
+  .shutter .mark{ width:96px; height:96px; opacity:0; animation:shutterIn 1s ease forwards; }
+  .shutter .ring{
+    position:absolute; width:180px; height:180px; border-radius:50%;
+    border:1px solid var(--line); opacity:0; animation:ringIn 1.1s ease forwards;
+  }
+  @keyframes shutterIn{ 0%{opacity:0; transform:scale(0.6) rotate(-10deg);} 60%{opacity:1;} 100%{opacity:1; transform:scale(1) rotate(0);} }
+  @keyframes ringIn{ 0%{opacity:0; transform:scale(0.4);} 60%{opacity:1;} 100%{opacity:0.6; transform:scale(1);} }
+  .shutter.hide{ opacity:0; visibility:hidden; }
+  @media (prefers-reduced-motion: reduce){ .shutter{ display:none; } }
 
   /* ---------- nav ---------- */
   header{
@@ -146,11 +161,12 @@
     padding-top:14px; padding-bottom:14px;
     border-bottom:1px solid var(--line);
   }
-  .brand{
-    font-family:var(--ff-display); font-weight:700; font-size:22px;
-    letter-spacing:0.24em; text-transform:uppercase;
+  .brand{ display:flex; align-items:center; gap:11px; }
+  .brand .mark{ width:22px; height:22px; }
+  .brand .word{
+    font-family:var(--ff-display); font-weight:700; font-size:21px;
+    letter-spacing:0.22em; text-transform:uppercase;
   }
-  .brand span{ color:var(--ember-2); }
   nav.links{ display:flex; gap:40px; align-items:center; }
   nav.links a{
     font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
@@ -169,7 +185,7 @@
     transition:border-color .25s ease, background .25s ease;
     white-space:nowrap;
   }
-  .btn-line:hover{ border-color:var(--ember-2); background:rgba(232,121,46,0.08); }
+  .btn-line:hover{ border-color:var(--ember-2); background:rgba(217,102,31,0.08); }
   .btn-solid{
     background:linear-gradient(120deg,var(--ember),var(--ember-2));
     color:var(--ink); padding:11px 24px; font-size:11px; font-weight:600;
@@ -196,6 +212,10 @@
       linear-gradient(180deg, rgba(10,10,9,0.35) 0%, rgba(10,10,9,0.15) 32%, rgba(10,10,9,0.55) 70%, rgba(10,10,9,0.96) 100%),
       linear-gradient(90deg, rgba(10,10,9,0.55) 0%, rgba(10,10,9,0) 45%);
   }
+  .hero-watermark{
+    position:absolute; z-index:1; right:clamp(-40px,-2vw,20px); top:50%; transform:translateY(-50%);
+    width:clamp(260px,32vw,460px); height:clamp(260px,32vw,460px); opacity:0.07; pointer-events:none;
+  }
   .hero-content{
     position:relative; z-index:2; width:100%; max-height:100%; overflow:hidden;
     padding:0 clamp(20px,5vw,64px) clamp(40px,7vh,110px);
@@ -204,7 +224,7 @@
     display:flex; align-items:center; gap:14px; margin-bottom:clamp(12px,2vh,22px);
     opacity:0; animation:riseIn .9s .2s ease forwards;
   }
-  .hero-eyebrow .dash{ width:34px; height:1px; background:var(--ember-2); flex:none; }
+  .hero-eyebrow .mark{ width:13px; height:13px; }
   h1.hero-title{
     font-size:clamp(34px, 6.4vw, 108px);
     color:var(--paper);
@@ -217,15 +237,20 @@
     font-family:var(--ff-serif); font-style:italic; font-size:clamp(15px,1.6vw,22px);
     opacity:0; animation:riseIn 1s .5s ease forwards;
   }
-  .hero-ctas{ display:flex; gap:16px; margin-top:clamp(20px,3.2vh,38px); flex-wrap:wrap;
+  .hero-ctas{ display:flex; gap:16px; margin-top:clamp(20px,3.2vh,38px); flex-wrap:wrap; align-items:center;
     opacity:0; animation:riseIn 1s .65s ease forwards; }
+  .hero-exif{
+    font-family:var(--ff-mono); font-size:11px; letter-spacing:0.06em; color:var(--paper-dim);
+    display:flex; align-items:center; gap:10px; padding-left:2px;
+  }
+  .hero-exif .dot{ width:4px; height:4px; border-radius:50%; background:var(--ember-2); flex:none; }
 
   @keyframes riseIn{ from{opacity:0; transform:translateY(22px);} to{opacity:1; transform:translateY(0);} }
 
   .scroll-cue{
     position:absolute; right:clamp(20px,5vw,64px); bottom:40px; z-index:2;
     display:flex; flex-direction:column; align-items:center; gap:10px;
-    color:var(--paper-dim); font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--paper-dim); font-family:var(--ff-mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
   }
   .scroll-cue .line{ width:1px; height:56px; background:linear-gradient(var(--ember-2), transparent);
     animation:scrollLine 1.8s ease-in-out infinite; }
@@ -235,18 +260,19 @@
   .marquee{
     border-top:1px solid var(--line); border-bottom:1px solid var(--line);
     overflow:hidden; white-space:nowrap; background:var(--ink-2);
+    position:relative; z-index:2;
   }
   .marquee-track{ display:inline-flex; animation:marquee 34s linear infinite; }
   .marquee-track span{
     font-family:var(--ff-display); font-weight:600; text-transform:uppercase;
-    font-size:clamp(24px,3.4vw,44px); padding:20px 34px; display:inline-flex; align-items:center; gap:34px;
+    font-size:clamp(24px,3.4vw,44px); padding:20px 34px; display:inline-flex; align-items:center; gap:30px;
     color:transparent; -webkit-text-stroke:1px rgba(243,239,232,0.42);
   }
-  .marquee-track span i{ color:var(--ember-2); font-style:normal; -webkit-text-stroke:0; font-size:14px; }
+  .marquee-track span i{ width:15px; height:15px; }
   @keyframes marquee{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
 
   /* ---------- section scaffolding ---------- */
-  section{ position:relative; }
+  section{ position:relative; z-index:2; }
   .section-head{
     display:flex; justify-content:space-between; align-items:flex-end; gap:30px;
     padding:clamp(72px,10vw,120px) 0 clamp(36px,5vw,56px);
@@ -274,12 +300,22 @@
     content:''; position:absolute; inset:0; z-index:1;
     background:linear-gradient(180deg, rgba(10,10,9,0) 40%, rgba(10,10,9,0.92) 100%);
   }
-  .work-card .meta{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:26px; }
+  .work-card .frame-tag{
+    position:absolute; top:20px; left:20px; z-index:2;
+    font-family:var(--ff-mono); font-size:10px; letter-spacing:0.1em; color:var(--paper);
+    background:rgba(10,10,9,0.5); border:1px solid var(--line); padding:5px 9px; border-radius:2px;
+    backdrop-filter:blur(6px);
+  }
+  .work-card .meta{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:24px 26px 26px; }
   .work-card .cat{ font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--ember-2); margin-bottom:8px; display:block; }
   .work-card .ttl{ font-family:var(--ff-display); font-size:26px; text-transform:uppercase; }
   .work-card .ttl:empty{ display:none; }
   .work-card .loc{ font-family:var(--ff-serif); font-style:italic; color:var(--paper-dim); font-size:15px; margin-top:4px; }
   .work-card .loc:empty{ display:none; }
+  .work-card .exif{
+    font-family:var(--ff-mono); font-size:11px; color:var(--paper-dim); margin-top:10px;
+    letter-spacing:0.03em; opacity:0.85;
+  }
   .work-card .expand{
     position:absolute; top:20px; right:20px; z-index:2; width:38px; height:38px; border-radius:50%;
     border:1px solid rgba(243,239,232,0.4); display:flex; align-items:center; justify-content:center;
@@ -310,14 +346,25 @@
   }
   .cat-tile img{ transition:transform 1s cubic-bezier(.16,.8,.3,1); }
   .cat-tile:hover img{ transform:scale(1.08); }
-  .cat-tile::after{ content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(10,10,9,0.88), rgba(10,10,9,0.15) 55%); }
+  .cat-tile::after{ content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(10,10,9,0.9), rgba(10,10,9,0.18) 55%); }
+  /* viewfinder corner brackets, revealed on hover/focus */
+  .cat-tile .bracket{
+    position:absolute; width:26px; height:26px; z-index:2; opacity:0; transition:opacity .3s ease, transform .3s ease;
+    border:1.4px solid var(--ember-2);
+  }
+  .cat-tile:hover .bracket, .cat-tile:focus-visible .bracket{ opacity:0.9; }
+  .cat-tile .bracket.tl{ top:16px; left:16px; border-right:0; border-bottom:0; transform:translate(6px,6px); }
+  .cat-tile .bracket.tr{ top:16px; right:16px; border-left:0; border-bottom:0; transform:translate(-6px,6px); }
+  .cat-tile .bracket.bl{ bottom:16px; left:16px; border-right:0; border-top:0; transform:translate(6px,-6px); }
+  .cat-tile .bracket.br{ bottom:16px; right:16px; border-left:0; border-top:0; transform:translate(-6px,-6px); }
+  .cat-tile:hover .bracket.tl, .cat-tile:hover .bracket.tr, .cat-tile:hover .bracket.bl, .cat-tile:hover .bracket.br{ transform:translate(0,0); }
   .cat-label{
     position:absolute; left:0; right:0; bottom:26px; z-index:2; text-align:center;
   }
-  .cat-label .num{ display:block; font-size:11px; letter-spacing:0.2em; color:var(--ember-2); margin-bottom:10px; }
+  .cat-label .num{ display:flex; align-items:center; justify-content:center; gap:10px; font-family:var(--ff-mono); font-size:11px; letter-spacing:0.16em; color:var(--ember-2); margin-bottom:10px; }
+  .cat-label .num .lens{ color:var(--paper-dim); }
   .cat-label .name{
     font-family:var(--ff-display); font-size:22px; text-transform:uppercase; letter-spacing:0.03em;
-    writing-mode:horizontal-tb;
   }
   .cat-label .count{
     display:block; font-family:var(--ff-serif); font-style:italic; color:var(--paper-dim);
@@ -333,9 +380,11 @@
   .about-grid{ display:grid; grid-template-columns:0.85fr 1.15fr; gap:clamp(40px,6vw,90px); align-items:center; }
   .about-portrait{ position:relative; aspect-ratio:4/5; overflow:hidden; border-radius:2px; }
   .about-portrait::after{ content:''; position:absolute; inset:0; box-shadow:inset 0 -80px 100px -20px rgba(10,10,9,0.5); }
-  .about-portrait .frame{
-    position:absolute; inset:18px; border:1px solid rgba(243,239,232,0.35); z-index:2; pointer-events:none;
-  }
+  .about-portrait .bracket{ position:absolute; width:30px; height:30px; z-index:2; border:1.4px solid rgba(243,239,232,0.55); pointer-events:none; }
+  .about-portrait .bracket.tl{ top:16px; left:16px; border-right:0; border-bottom:0; }
+  .about-portrait .bracket.tr{ top:16px; right:16px; border-left:0; border-bottom:0; }
+  .about-portrait .bracket.bl{ bottom:16px; left:16px; border-right:0; border-top:0; }
+  .about-portrait .bracket.br{ bottom:16px; right:16px; border-left:0; border-top:0; }
   .about-tag{ position:absolute; bottom:26px; left:26px; z-index:3; }
   .about-tag .who{ font-family:var(--ff-display); font-size:20px; text-transform:uppercase; }
   .about-tag .role{ font-family:var(--ff-serif); font-style:italic; color:var(--ember-2); font-size:15px; }
@@ -350,11 +399,17 @@
   /* ---------- services ---------- */
   .services{ padding:clamp(70px,9vw,120px) 0; border-top:1px solid var(--line); }
   .service-row{
-    display:grid; grid-template-columns:1.1fr 2fr; gap:24px; align-items:center;
+    display:grid; grid-template-columns:90px 1.1fr 2fr; gap:24px; align-items:center;
     padding:30px 0; border-bottom:1px solid var(--line);
     transition:background .3s ease;
   }
-  .service-row:hover{ background:rgba(232,121,46,0.04); }
+  .service-row:hover{ background:rgba(217,102,31,0.04); }
+  .service-row:hover .service-tag{ color:var(--ember-2); border-color:var(--ember-2); }
+  .service-tag{
+    font-family:var(--ff-mono); font-size:11px; color:var(--paper-dim); letter-spacing:0.04em;
+    border:1px solid var(--line); border-radius:2px; padding:6px 8px; text-align:center; width:fit-content;
+    transition:color .25s ease, border-color .25s ease;
+  }
   .service-row h3{ font-size:clamp(24px,2.6vw,34px); text-transform:uppercase; }
   .service-row p{ color:var(--paper-dim); font-size:14.5px; line-height:1.7; max-width:480px; }
   @media (max-width:760px){
@@ -371,11 +426,11 @@
   .contact-info{ margin-top:30px; }
   .contact-info a{ display:block; font-size:20px; margin-bottom:10px; font-family:var(--ff-serif); font-style:italic; color:var(--paper); border-bottom:1px solid transparent; transition:color .25s, border-color .25s; }
   .contact-info a:hover{ color:var(--ember-2); border-color:var(--ember-2); }
-  .contact-meta{ margin-top:40px; color:var(--paper-dim); font-size:13px; line-height:2; }
+  .contact-meta{ margin-top:40px; color:var(--paper-dim); font-family:var(--ff-mono); font-size:12.5px; line-height:2; }
 
   .form{ display:flex; flex-direction:column; gap:18px; }
   .field{ display:flex; flex-direction:column; gap:8px; }
-  .field label{ font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--paper-dim); }
+  .field label{ font-family:var(--ff-mono); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--paper-dim); }
   .field input, .field select, .field textarea{
     background:transparent; border:0; border-bottom:1px solid var(--line);
     color:var(--paper); font-family:var(--ff-body); font-size:15px; padding:10px 2px;
@@ -387,12 +442,15 @@
   .form .btn-solid{ align-self:flex-start; margin-top:8px; cursor:pointer; border:none; font-family:inherit; }
 
   /* ---------- footer ---------- */
-  footer{ border-top:1px solid var(--line); padding:44px 0; }
+  footer{ border-top:1px solid var(--line); padding:44px 0; position:relative; z-index:2; }
   .foot-inner{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
+  .foot-brand{ display:flex; align-items:center; gap:9px; }
+  .foot-brand .mark{ width:15px; height:15px; }
+  .foot-brand .word{ font-family:var(--ff-display); font-size:15px; letter-spacing:0.2em; text-transform:uppercase; }
   .foot-links{ display:flex; gap:26px; }
   .foot-links a{ font-size:12px; color:var(--paper-dim); letter-spacing:0.06em; transition:color .2s ease; }
   .foot-links a:hover{ color:var(--paper); }
-  .foot-copy{ font-size:11px; color:var(--paper-dim); letter-spacing:0.04em; }
+  .foot-copy{ font-family:var(--ff-mono); font-size:11px; color:var(--paper-dim); letter-spacing:0.02em; }
 
   /* ---------- lightbox ---------- */
   .lightbox{
@@ -431,7 +489,7 @@
   .cat-gallery-close:hover{ border-color:var(--ember-2); color:var(--ember-2); }
   .cat-gallery-inner{ max-width:1200px; margin:0 auto; padding:clamp(70px,10vw,110px) clamp(20px,5vw,64px) 100px; }
   .cat-gallery-head{ margin-bottom:clamp(28px,4vw,44px); }
-  .cat-gallery-head .num{ font-size:11px; letter-spacing:0.2em; color:var(--ember-2); text-transform:uppercase; display:block; margin-bottom:10px; }
+  .cat-gallery-head .num{ font-family:var(--ff-mono); font-size:11px; letter-spacing:0.16em; color:var(--ember-2); text-transform:uppercase; display:block; margin-bottom:10px; }
   .cat-gallery-head h3{ font-size:clamp(32px,5.4vw,64px); }
   .cat-gallery-head .count{ font-family:var(--ff-serif); font-style:italic; color:var(--paper-dim); font-size:15px; margin-top:8px; display:block; }
   .cat-gallery-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
@@ -477,10 +535,33 @@
 </style>
 
 <!-- ============================================================
+     MARK SPRITE — the logo's twin-stroke "A" reused throughout
+     ============================================================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="sineera-mark" viewBox="0 0 100 100">
+      <path d="M8,92 L24,92 L54,18 L38,18 Z" fill="#f5a83c"/>
+      <path d="M92,92 L76,92 L46,18 L62,18 Z" fill="#d9661f"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============================================================
+     SHUTTER INTRO
+     ============================================================ -->
+<div class="shutter" id="shutter" aria-hidden="true">
+  <span class="ring"></span>
+  <svg class="mark"><use href="#sineera-mark"></use></svg>
+</div>
+
+<!-- ============================================================
      NAV
      ============================================================ -->
 <header id="siteHeader">
-  <a href="#top" class="brand">SINEER<span>A</span></a>
+  <a href="#top" class="brand">
+    <svg class="mark"><use href="#sineera-mark"></use></svg>
+    <span class="word">Sineera</span>
+  </a>
   <nav class="links">
     <a href="#work">Work</a>
     <a href="#categories">Portfolio</a>
@@ -517,14 +598,19 @@
       <img id="heroImg" src="" alt="Cinematic wedding photograph on a coastal cliff at golden hour">
     </picture>
   </div>
+  <svg class="hero-watermark mark" aria-hidden="true"><use href="#sineera-mark"></use></svg>
   <div class="hero-content">
-    <div class="hero-eyebrow"><span class="dash"></span><span class="eyebrow">Frames &amp; Photography</span></div>
+    <div class="hero-eyebrow">
+      <svg class="mark"><use href="#sineera-mark"></use></svg>
+      <span class="eyebrow" style="gap:0;">Frames &amp; Photography</span>
+    </div>
     <h1 class="hero-title">Stories,<br>Held in<br><em>Light</em></h1>
     <p class="hero-sub">SINEERA is a cinematic photography studio for weddings, portraits and campaigns — every frame composed to feel remembered, not just recorded.</p>
     <div class="hero-ctas">
       <a href="#work" class="btn-solid">Explore Portfolio</a>
       <a href="#contact" class="btn-line">Book a Shoot</a>
     </div>
+    <div class="hero-exif"><span class="dot"></span>SHOT ON 85mm · f/1.4 · 1/200s · GOLDEN HOUR</div>
   </div>
   <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
 </section>
@@ -533,10 +619,7 @@
      MARQUEE
      ============================================================ -->
 <div class="marquee">
-  <div class="marquee-track">
-    <span>Weddings <i>●</i> Portraits <i>●</i> Events <i>●</i> Fashion <i>●</i> Travel <i>●</i> Commercial <i>●</i></span>
-    <span>Weddings <i>●</i> Portraits <i>●</i> Events <i>●</i> Fashion <i>●</i> Travel <i>●</i> Commercial <i>●</i></span>
-  </div>
+  <div class="marquee-track" id="marqueeTrack"></div>
 </div>
 
 <!-- ============================================================
@@ -570,7 +653,7 @@
   <div class="wrap about-grid">
     <div class="about-portrait reveal">
       <img id="aboutImg" src="" alt="Portrait of the SINEERA lead photographer holding a camera">
-      <div class="frame"></div>
+      <span class="bracket tl"></span><span class="bracket tr"></span><span class="bracket bl"></span><span class="bracket br"></span>
       <div class="about-tag">
         <div class="who">Reyansh Kade</div>
         <div class="role">Founder &amp; Lead Photographer</div>
@@ -600,32 +683,7 @@
       <h2>Services</h2>
       <p>Every package is shaped around the story you're telling — these are starting points, not limits.</p>
     </div>
-    <div class="reveal">
-      <div class="service-row">
-        <h3>Weddings</h3>
-        <p>Full-day coverage from first light to last dance, delivered as a cinematic, editorial-grade gallery.</p>
-      </div>
-      <div class="service-row">
-        <h3>Portraits</h3>
-        <p>Studio or on-location sessions for individuals, founders and families — natural direction, no stiff posing.</p>
-      </div>
-      <div class="service-row">
-        <h3>Events</h3>
-        <p>Discreet, fast-moving coverage for galas, launches and private celebrations.</p>
-      </div>
-      <div class="service-row">
-        <h3>Fashion</h3>
-        <p>Lookbooks, campaigns and editorial stories built with stylists, MUAs and set design in mind.</p>
-      </div>
-      <div class="service-row">
-        <h3>Travel</h3>
-        <p>Destination storytelling for brands and publications — landscapes, culture and quiet detail.</p>
-      </div>
-      <div class="service-row">
-        <h3>Commercial</h3>
-        <p>Product and brand imagery built for campaigns, catalogues and paid media.</p>
-      </div>
-    </div>
+    <div class="reveal" id="servicesList"></div>
   </div>
 </section>
 
@@ -643,9 +701,9 @@
         <a href="tel:+442071234567">+44 20 7123 4567</a>
       </div>
       <div class="contact-meta">
-        Studio 4, Clerkenwell Green<br>
-        London, EC1R 0DU<br><br>
-        Mon – Sat, 9am – 7pm GMT
+        STUDIO 4, CLERKENWELL GREEN<br>
+        LONDON, EC1R 0DU<br><br>
+        MON – SAT, 9AM – 7PM GMT
       </div>
     </div>
     <form class="form reveal" id="bookingForm">
@@ -686,7 +744,10 @@
      ============================================================ -->
 <footer>
   <div class="wrap foot-inner">
-    <a href="#top" class="brand" style="font-size:16px;">SINEER<span>A</span></a>
+    <a href="#top" class="foot-brand">
+      <svg class="mark"><use href="#sineera-mark"></use></svg>
+      <span class="word">Sineera</span>
+    </a>
     <div class="foot-links">
       <a href="#work">Work</a>
       <a href="#about">About</a>
@@ -694,7 +755,7 @@
       <a href="#contact">Contact</a>
       <a href="#">Instagram</a>
     </div>
-    <div class="foot-copy">© 2026 SINEERA Frames &amp; Photography. All rights reserved.</div>
+    <div class="foot-copy">EST. 2011, LONDON · © 2026 SINEERA FRAMES &amp; PHOTOGRAPHY</div>
   </div>
 </footer>
 
@@ -730,6 +791,15 @@
 <script>
 (function(){
   const IMG = window.SINEERA_IMAGES;
+  const META = window.SINEERA_META;
+  const markSvg = () => '<svg class="mark"><use href="#sineera-mark"></use></svg>';
+
+  // ---- shutter intro ----
+  const shutter = document.getElementById('shutter');
+  window.addEventListener('load', () => {
+    setTimeout(() => { shutter.classList.add('hide'); }, 850);
+  });
+  setTimeout(() => { shutter.classList.add('hide'); }, 3200); // safety fallback
 
   // ---- populate hero / about / contact backdrop images ----
   document.getElementById('heroSourceMobile').srcset = IMG.hero.mobile;
@@ -763,15 +833,24 @@
   mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
   mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
 
+  // ---- marquee (built from category names, mark glyph as separator) ----
+  const marqueeTrack = document.getElementById('marqueeTrack');
+  const catNames = ['Weddings','Portraits','Events','Fashion','Travel','Commercial'];
+  const marqueeRow = catNames.map(n => n).join(' <i>' + markSvg() + '</i> ') + ' <i>' + markSvg() + '</i> ';
+  marqueeTrack.innerHTML = '<span>' + marqueeRow + '</span><span>' + marqueeRow + '</span>';
+
   // ---- build featured work grid ----
   const workGrid = document.getElementById('workGrid');
   const classes = ['c1','c2','c3','c4','c5','c6'];
   IMG.featured.forEach((item, i) => {
+    const key = item.category.toLowerCase();
+    const m = META[key] || {};
     const card = document.createElement('div');
     card.className = 'work-card reveal ' + classes[i % classes.length];
     const altText = (item.title ? item.title + ' — ' : '') + item.category + ' photography by SINEERA';
     card.innerHTML = `
       <div class="img-box"><img src="${item.img}" alt="${altText}"></div>
+      <div class="frame-tag">${m.frame || ''}</div>
       <div class="expand">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 5V1H5M9 1H13V5M13 9V13H9M5 13H1V9" stroke="currentColor" stroke-width="1.2"/></svg>
       </div>
@@ -779,6 +858,7 @@
         <span class="cat">${item.category}</span>
         <div class="ttl">${item.title}</div>
         <div class="loc">${item.location}</div>
+        <div class="exif">${m.lens || ''} · ${m.settings || ''}</div>
       </div>
     `;
     card.addEventListener('click', () => openLightbox(item));
@@ -809,29 +889,53 @@
   // ---- build category strip ----
   const catStrip = document.getElementById('catStrip');
   const catOrder = [
-    ['01','Weddings','weddings'],
-    ['02','Portraits','portraits'],
-    ['03','Events','events'],
-    ['04','Fashion','fashion'],
-    ['05','Travel','travel'],
-    ['06','Commercial','commercial']
+    ['Weddings','weddings'],
+    ['Portraits','portraits'],
+    ['Events','events'],
+    ['Fashion','fashion'],
+    ['Travel','travel'],
+    ['Commercial','commercial']
   ];
-  catOrder.forEach(([num, name, key]) => {
+  catOrder.forEach(([name, key]) => {
     const photoCount = getCategoryPhotos(key, name).length;
+    const m = META[key] || {};
     const tile = document.createElement('button');
     tile.type = 'button';
     tile.className = 'cat-tile reveal';
     tile.setAttribute('aria-label', 'View all ' + name + ' photos');
     tile.innerHTML = `
       <img src="${IMG.categories[key]}" alt="${name} photography sample by SINEERA">
+      <span class="bracket tl"></span><span class="bracket tr"></span><span class="bracket bl"></span><span class="bracket br"></span>
       <div class="cat-label">
-        <span class="num">${num}</span>
+        <span class="num">${m.frame || ''}<span class="lens">${m.lens ? ' · ' + m.lens : ''}</span></span>
         <span class="name">${name}</span>
         <span class="count">${photoCount} photo${photoCount === 1 ? '' : 's'}</span>
       </div>
     `;
-    tile.addEventListener('click', () => openCategoryGallery(key, name, num));
+    tile.addEventListener('click', () => openCategoryGallery(key, name, m.frame || ''));
     catStrip.appendChild(tile);
+  });
+
+  // ---- build services list ----
+  const servicesList = document.getElementById('servicesList');
+  const services = [
+    { key:'weddings',   h:'Weddings',   p:'Full-day coverage from first light to last dance, delivered as a cinematic, editorial-grade gallery.' },
+    { key:'portraits',  h:'Portraits',  p:'Studio or on-location sessions for individuals, founders and families — natural direction, no stiff posing.' },
+    { key:'events',     h:'Events',     p:'Discreet, fast-moving coverage for galas, launches and private celebrations.' },
+    { key:'fashion',    h:'Fashion',    p:'Lookbooks, campaigns and editorial stories built with stylists, MUAs and set design in mind.' },
+    { key:'travel',     h:'Travel',     p:'Destination storytelling for brands and publications — landscapes, culture and quiet detail.' },
+    { key:'commercial', h:'Commercial', p:'Product and brand imagery built for campaigns, catalogues and paid media.' }
+  ];
+  services.forEach(s => {
+    const m = META[s.key] || {};
+    const row = document.createElement('div');
+    row.className = 'service-row';
+    row.innerHTML = `
+      <span class="service-tag">${m.lens || ''}</span>
+      <h3>${s.h}</h3>
+      <p>${s.p}</p>
+    `;
+    servicesList.appendChild(row);
   });
 
   // ---- category gallery ----
@@ -841,10 +945,10 @@
   const catGalleryNum = document.getElementById('catGalleryNum');
   const catGalleryCount = document.getElementById('catGalleryCount');
 
-  function openCategoryGallery(key, label, num){
+  function openCategoryGallery(key, label, frameTag){
     const photos = getCategoryPhotos(key, label);
     catGalleryTitle.textContent = label;
-    catGalleryNum.textContent = num;
+    catGalleryNum.textContent = frameTag;
     catGalleryCount.textContent = photos.length + ' photo' + (photos.length === 1 ? '' : 's');
     catGalleryGrid.innerHTML = '';
     if (!photos.length){
