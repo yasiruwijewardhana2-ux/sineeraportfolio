@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SINEERA — Frames & Photography | Cinematic Photography Studio</title>
+<meta name="description" content="SINEERA is a cinematic photography studio shooting weddings, events, portraits, birthdays, pre-shoots and commercial stories with an editorial, timeless eye.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0b;
+    --bg-alt:#121213;
+    --panel:#17171818;
+    --ink:#f3efe6;
+    --muted:#948e83;
+    --muted-dim:#5c584f;
+    --line:rgba(243,239,230,0.12);
+    --line-strong:rgba(243,239,230,0.22);
+    --accent:#e2611e;
+    --accent-soft:rgba(226,97,30,0.16);
+    --accent-ink:#0a0a0b;
+
+    --display:'Bebas Neue', 'Arial Narrow', sans-serif;
+    --serif:'Instrument Serif', Georgia, serif;
+    --sans:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    --container: 1440px;
+    --edge: clamp(20px, 5vw, 72px);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+  }
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-weight:300;
+    line-height:1.5;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;}
+  ul{list-style:none;}
+
+  .skip-link{
+    position:absolute;top:-60px;left:16px;background:var(--accent);color:var(--accent-ink);
+    padding:10px 18px;z-index:999;font-weight:600;transition:top .25s;
+  }
+  .skip-link:focus{top:16px;}
+
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+
+  .eyebrow{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:400;
+    color:var(--accent);
+    font-size:clamp(16px,1.6vw,20px);
+    letter-spacing:.02em;
+  }
+
+  .wrap{max-width:var(--container);margin:0 auto;padding-inline:var(--edge);}
+
+  /* ---------- Sprocket rail (signature decorative motif) ---------- */
+  .sprocket-rail{
+    position:fixed;left:0;top:0;bottom:0;width:14px;
+    background-image:repeating-linear-gradient(to bottom, var(--line-strong) 0 2px, transparent 2px 34px);
+    background-position:6px 0;
+    opacity:.5;
+    z-index:5;
+    pointer-events:none;
+  }
+  .sprocket-rail::before{
+    content:"";
+    position:absolute;left:4px;top:0;bottom:0;width:4px;
+    background:repeating-linear-gradient(to bottom, transparent 0 12px, var(--muted-dim) 12px 16px);
+    opacity:.6;
+  }
+  @media (max-width:900px){ .sprocket-rail{display:none;} }
+
+  /* ---------- Frame counter (signature scroll element) ---------- */
+  .frame-counter{
+    position:fixed;right:18px;top:50%;transform:translateY(-50%);
+    z-index:50;display:flex;flex-direction:column;align-items:center;gap:14px;
+    font-family:var(--sans);letter-spacing:.14em;font-size:11px;color:var(--muted);
+    pointer-events:none;
+  }
+  .frame-counter .fc-track{width:1px;height:120px;background:var(--line);position:relative;overflow:hidden;}
+  .frame-counter .fc-fill{position:absolute;top:0;left:0;width:100%;height:0%;background:var(--accent);}
+  .frame-counter .fc-num{writing-mode:vertical-rl;text-orientation:mixed;}
+  @media (max-width:900px){ .frame-counter{display:none;} }
+
+  /* ---------- Nav ---------- */
+  header.site-nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px var(--edge);
+    mix-blend-mode:normal;
+    transition:background .4s ease, padding .4s ease, border-color .4s ease;
+    border-bottom:1px solid transparent;
+  }
+  header.site-nav.scrolled{
+    background:rgba(10,10,11,0.86);
+    backdrop-filter:blur(10px);
+    padding:14px var(--edge);
+    border-bottom:1px solid var(--line);
+  }
+  .logo{
+    font-family:var(--display);
+    font-size:26px;
+    letter-spacing:.06em;
+    line-height:1;
+  }
+  .logo span{color:var(--accent);}
+  .logo small{
+    display:block;font-family:var(--sans);font-size:9px;letter-spacing:.32em;
+    color:var(--muted);font-weight:400;margin-top:2px;
+  }
+  nav.primary-links{display:flex;gap:38px;align-items:center;}
+  nav.primary-links a{
+    font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+    position:relative;padding-bottom:4px;
+  }
+  nav.primary-links a::after{
+    content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--accent);
+    transition:width .35s ease;
+  }
+  nav.primary-links a:hover, nav.primary-links a:focus-visible{color:var(--ink);}
+  nav.primary-links a:hover::after, nav.primary-links a:focus-visible::after{width:100%;}
+  .nav-contact-btn{
+    border:1px solid var(--line-strong);padding:10px 22px;font-size:12px;letter-spacing:.1em;
+    text-transform:uppercase;transition:background .3s, color .3s, border-color .3s;
+  }
+  .nav-contact-btn:hover{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);}
+
+  .burger{display:none;flex-direction:column;gap:5px;z-index:120;}
+  .burger span{width:26px;height:1px;background:var(--ink);transition:transform .3s, opacity .3s;}
+  @media (max-width:860px){
+    nav.primary-links, .nav-contact-btn{display:none;}
+    .burger{display:flex;}
+  }
+
+  .mobile-menu{
+    position:fixed;inset:0;background:var(--bg);z-index:110;
+    display:flex;flex-direction:column;justify-content:center;gap:28px;padding:var(--edge);
+    transform:translateY(-100%);transition:transform .5s cubic-bezier(.65,0,.35,1);
+  }
+  .mobile-menu.open{transform:translateY(0);}
+  .mobile-menu a{font-family:var(--display);font-size:44px;letter-spacing:.02em;color:var(--ink);}
+  .mobile-menu .mm-contact{font-family:var(--sans);font-size:14px;color:var(--accent);letter-spacing:.08em;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;min-height:100svh;display:flex;align-items:flex-end;
+    padding:0;overflow:hidden;
+  }
+  .hero-media{position:absolute;inset:0;z-index:1;}
+  .hero-slide{
+    position:absolute;inset:0;
+    opacity:0;
+    transition:opacity 1.6s cubic-bezier(.4,0,.2,1);
+    pointer-events:none;
+  }
+  .hero-slide.is-active{opacity:1;pointer-events:auto;}
+  .hero-slide img{
+    width:100%;height:100%;object-fit:cover;
+    filter:grayscale(0.55) contrast(1.12) brightness(.62);
+    transform:scale(1.08);
+    will-change:transform;
+  }
+  .hero-media::after{
+    content:"";position:absolute;inset:0;z-index:2;
+    background:linear-gradient(180deg, rgba(10,10,11,.35) 0%, rgba(10,10,11,.15) 40%, rgba(10,10,11,.92) 100%),
+               linear-gradient(90deg, rgba(10,10,11,.55) 0%, rgba(10,10,11,0) 45%);
+  }
+  .hero-tag{
+    display:inline-flex;align-items:center;gap:9px;
+    font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:16px;
+    transition:opacity .4s ease;
+  }
+  .hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none;}
+  .hero-slide-nav{
+    position:absolute;right:var(--edge);bottom:40px;z-index:3;
+    display:flex;gap:9px;align-items:center;
+  }
+  .hero-slide-nav button{
+    width:26px;height:3px;background:var(--line-strong);border:none;padding:0;cursor:pointer;
+    transition:background .35s ease, transform .35s ease;
+  }
+  .hero-slide-nav button.is-active{background:var(--accent);transform:scaleX(1.15);}
+  @media (max-width:860px){
+    .hero-slide-nav{display:none;}
+  }
+  .hero-content{
+    position:relative;z-index:2;width:100%;
+    padding:0 var(--edge) 88px;
+    display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;
+  }
+  .hero-heading{
+    font-family:var(--display);
+    font-size:clamp(58px, 11vw, 168px);
+    line-height:.88;
+    letter-spacing:.005em;
+    text-transform:uppercase;
+  }
+  .hero-heading em{
+    font-style:normal;color:var(--accent);
+  }
+  .hero-eyebrow{margin-bottom:18px;}
+  .hero-sub{
+    max-width:420px;color:var(--muted);font-size:15px;line-height:1.7;margin-top:22px;
+  }
+  .hero-actions{display:flex;flex-direction:column;gap:16px;align-items:flex-end;}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:13px;letter-spacing:.1em;text-transform:uppercase;
+    padding:16px 30px;border:1px solid var(--line-strong);white-space:nowrap;
+    transition:background .3s, color .3s, border-color .3s, transform .3s;
+  }
+  .btn-solid{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);}
+  .btn-solid:hover{transform:translateY(-2px);background:#f2792f;}
+  .btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px);}
+
+  .scroll-cue{
+    position:absolute;left:var(--edge);bottom:32px;z-index:2;
+    display:flex;align-items:center;gap:12px;color:var(--muted);font-size:11px;letter-spacing:.24em;
+  }
+  .scroll-cue .line{width:1px;height:44px;background:var(--line-strong);position:relative;overflow:hidden;}
+  .scroll-cue .line::after{content:"";position:absolute;top:0;left:0;width:100%;height:30%;background:var(--accent);
+    animation:cue 2.2s ease-in-out infinite;}
+  @keyframes cue{0%{transform:translateY(-100%);}60%{transform:translateY(220%);}100%{transform:translateY(220%);}}
+
+  @media (max-width:860px){
+    .hero-content{grid-template-columns:1fr;}
+    .hero-actions{align-items:flex-start;flex-direction:row;flex-wrap:wrap;}
+  }
+
+  /* ---------- Reveal ---------- */
+  .reveal{opacity:0;transform:translateY(36px);transition:opacity .9s cubic-bezier(.16,.84,.44,1), transform .9s cubic-bezier(.16,.84,.44,1);}
+  .reveal.is-visible{opacity:1;transform:translateY(0);}
+  .reveal-delay-1{transition-delay:.12s;}
+  .reveal-delay-2{transition-delay:.24s;}
+  .reveal-delay-3{transition-delay:.36s;}
+
+  section{position:relative;padding:150px 0;}
+  @media (max-width:700px){ section{padding:100px 0;} }
+
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:64px;flex-wrap:wrap;}
+  .section-title{
+    font-family:var(--display);font-size:clamp(40px, 6vw, 84px);line-height:.92;letter-spacing:.01em;text-transform:uppercase;
+  }
+  .section-note{max-width:340px;color:var(--muted);font-size:14px;line-height:1.7;}
+
+  hr.rule{border:none;border-top:1px solid var(--line);}
+
+  /* ---------- About ---------- */
+  .about{background:var(--bg-alt);}
+  .about-grid{display:grid;grid-template-columns:0.85fr 1.15fr;gap:80px;align-items:center;}
+  .about-media{position:relative;aspect-ratio:4/5;overflow:hidden;}
+  .about-media img{width:100%;height:100%;object-fit:cover;filter:grayscale(0.7) contrast(1.08);}
+  .about-media .frame-tag{
+    position:absolute;bottom:18px;left:18px;font-size:11px;letter-spacing:.2em;color:var(--muted);
+    background:rgba(10,10,11,.65);padding:6px 10px;
+  }
+  .about-copy p{font-size:clamp(19px,2.1vw,26px);line-height:1.55;color:var(--ink);font-weight:300;}
+  .about-copy p + p{margin-top:22px;color:var(--muted);font-size:16px;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:70px;padding-top:44px;border-top:1px solid var(--line);}
+  .stat-num{font-family:var(--display);font-size:clamp(34px,4vw,54px);color:var(--accent);line-height:1;}
+  .stat-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:10px;}
+  @media (max-width:860px){
+    .about-grid{grid-template-columns:1fr;gap:44px;}
+    .stats{grid-template-columns:repeat(2,1fr);row-gap:36px;}
+  }
+
+  /* ---------- Portfolio ---------- */
+  .filters{display:flex;flex-wrap:wrap;gap:10px 14px;margin-bottom:52px;}
+  .filter-btn{
+    font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:10px 4px;
+    color:var(--muted);border-bottom:1px solid transparent;position:relative;
+  }
+  .filter-btn::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);
+    display:inline-block;margin-right:8px;opacity:0;transition:opacity .25s;transform:translateY(-1px);}
+  .filter-btn:hover{color:var(--ink);}
+  .filter-btn[aria-pressed="true"]{color:var(--ink);border-color:var(--accent);}
+  .filter-btn[aria-pressed="true"]::before{opacity:1;}
+
+  .gallery{column-count:3;column-gap:3px;}
+  @media (max-width:1000px){ .gallery{column-count:2;} }
+  @media (max-width:600px){ .gallery{column-count:1;} }
+
+  .g-item{
+    break-inside:avoid;margin-bottom:3px;position:relative;overflow:hidden;cursor:zoom-in;
+    background:var(--bg-alt);
+  }
+  .g-item.hidden-item{display:none;}
+  .g-item img{
+    width:100%;display:block;filter:contrast(1.05) brightness(1);
+    transition:filter .7s ease, transform 1s cubic-bezier(.16,.84,.44,1);
+    transform:scale(1.001);
+  }
+  .g-item:hover img, .g-item:focus-within img{filter:contrast(1.02) brightness(1);transform:scale(1.05);}
+  .g-caption{
+    position:absolute;left:0;right:0;bottom:0;padding:20px;
+    background:linear-gradient(180deg, transparent, rgba(10,10,11,.9));
+    opacity:0;transform:translateY(10px);transition:opacity .4s, transform .4s;
+  }
+  .g-item:hover .g-caption, .g-item:focus-within .g-caption{opacity:1;transform:translateY(0);}
+  .g-cat{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);}
+  .g-title{font-family:var(--serif);font-style:italic;font-size:19px;margin-top:4px;}
+  .g-item button.g-expand{position:absolute;inset:0;width:100%;height:100%;background:transparent;}
+
+  /* ---------- Featured story ---------- */
+  .story{padding:0;min-height:88vh;position:relative;display:flex;align-items:flex-end;overflow:hidden;}
+  .story-media{position:absolute;inset:0;}
+  .story-media img{width:100%;height:100%;object-fit:cover;filter:grayscale(.55) contrast(1.1) brightness(.65);will-change:transform;}
+  .story-media::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg, rgba(10,10,11,.94), rgba(10,10,11,.1) 55%);}
+  .story-content{position:relative;z-index:2;padding:0 var(--edge) 90px;width:100%;}
+  .story-meta{display:flex;gap:18px;align-items:center;margin-bottom:20px;color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase;}
+  .story-meta .dot{width:5px;height:5px;background:var(--accent);border-radius:50%;}
+  .story-title{font-family:var(--display);font-size:clamp(46px,9vw,132px);line-height:.9;text-transform:uppercase;max-width:920px;}
+  .story-desc{max-width:460px;color:var(--muted);margin-top:24px;font-size:15px;line-height:1.7;}
+  .story-link{display:inline-flex;align-items:center;gap:10px;margin-top:30px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--accent);padding-bottom:4px;}
+  .story-link svg{transition:transform .3s;}
+  .story-link:hover svg{transform:translateX(6px);}
+
+  /* ---------- Services ---------- */
+  .services-list{border-top:1px solid var(--line);}
+  .service-row{
+    display:grid;grid-template-columns:70px 1fr auto;align-items:center;gap:30px;
+    padding:34px 0;border-bottom:1px solid var(--line);position:relative;overflow:hidden;
+  }
+  .service-row .s-index{font-family:var(--sans);font-size:12px;letter-spacing:.1em;color:var(--muted-dim);}
+  .service-row .s-name{font-family:var(--display);font-size:clamp(28px,4vw,52px);letter-spacing:.01em;text-transform:uppercase;
+    transition:color .35s, transform .35s; position:relative; z-index:2;}
+  .service-row .s-desc{grid-column:2 / 3;font-size:14px;color:var(--muted);max-width:520px;margin-top:6px;position:relative;z-index:2;}
+  .service-row .s-thumb{
+    position:absolute;top:50%;right:180px;transform:translateY(-50%) translateX(30px) scale(.92);width:150px;height:190px;
+    overflow:hidden;opacity:0;transition:opacity .45s ease, transform .45s ease;pointer-events:none;z-index:1;
+  }
+  .service-row .s-thumb img{width:100%;height:100%;object-fit:cover;filter:grayscale(.85) contrast(1.1);}
+  .service-row .s-arrow{justify-self:end;font-size:22px;color:var(--muted);transition:transform .35s, color .35s;}
+  .service-row:hover{cursor:default;}
+  .service-row:hover .s-name{color:var(--accent);transform:translateX(10px);}
+  .service-row:hover .s-thumb{opacity:1;transform:translateY(-50%) translateX(0) scale(1);}
+  .service-row:hover .s-arrow{transform:translateX(8px);color:var(--accent);}
+  @media (max-width:860px){
+    .service-row{grid-template-columns:44px 1fr auto;}
+    .s-desc{grid-column:2/3;}
+    .service-row .s-thumb{display:none;}
+  }
+
+  /* ---------- Testimonials ---------- */
+  .testimonials{background:var(--bg-alt);}
+  .t-track-wrap{overflow:hidden;}
+  .t-track{display:flex;transition:transform .6s cubic-bezier(.65,0,.35,1);}
+  .t-slide{min-width:100%;padding-right:60px;}
+  .t-quote{font-family:var(--serif);font-style:italic;font-size:clamp(24px,3.4vw,40px);line-height:1.4;max-width:900px;}
+  .t-quote::before{content:"“";color:var(--accent);}
+  .t-quote::after{content:"”";color:var(--accent);}
+  .t-attr{margin-top:28px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+  .t-attr span{color:var(--ink);}
+  .t-controls{display:flex;gap:16px;align-items:center;margin-top:56px;}
+  .t-dot{width:8px;height:8px;border-radius:50%;background:var(--line-strong);transition:background .3s, transform .3s;}
+  .t-dot[aria-current="true"]{background:var(--accent);transform:scale(1.3);}
+  .t-nav-btn{width:44px;height:44px;border:1px solid var(--line-strong);display:flex;align-items:center;justify-content:center;transition:border-color .3s, background .3s;}
+  .t-nav-btn:hover{border-color:var(--accent);background:var(--accent-soft);}
+
+  /* ---------- Final CTA ---------- */
+  .final-cta{
+    text-align:center;padding:200px 0;position:relative;
+  }
+  .final-cta .eyebrow{display:block;margin-bottom:24px;}
+  .cta-title{
+    font-family:var(--display);font-size:clamp(46px,9vw,140px);line-height:.94;text-transform:uppercase;
+  }
+  .cta-title .accent-line{color:var(--accent);}
+  .cta-actions{margin-top:52px;display:flex;justify-content:center;}
+
+  /* ---------- Footer ---------- */
+  footer{padding-top:110px;}
+  .footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:60px;padding-bottom:80px;border-bottom:1px solid var(--line);}
+  .footer-logo{font-family:var(--display);font-size:clamp(50px,7vw,96px);line-height:.9;}
+  .footer-logo span{color:var(--accent);}
+  .footer-tag{color:var(--muted);margin-top:20px;max-width:340px;font-size:14px;line-height:1.7;}
+  .footer-col h4{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:22px;}
+  .footer-col ul li{margin-bottom:14px;}
+  .footer-col a{font-size:15px;display:inline-flex;align-items:center;gap:10px;color:var(--ink);transition:color .3s, gap .3s;}
+  .footer-col a:hover{color:var(--accent);gap:14px;}
+  .footer-col svg{flex-shrink:0;}
+  .footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:34px 0;color:var(--muted-dim);font-size:12px;letter-spacing:.05em;flex-wrap:wrap;gap:12px;}
+  @media (max-width:860px){ .footer-top{grid-template-columns:1fr;gap:44px;} }
+
+  /* ---------- Lightbox ---------- */
+  .lightbox{
+    position:fixed;inset:0;z-index:200;background:rgba(8,8,9,.97);
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;pointer-events:none;transition:opacity .35s ease;
+    padding:40px;
+  }
+  .lightbox.open{opacity:1;pointer-events:auto;}
+  .lightbox img{max-height:86vh;max-width:min(1100px,86vw);object-fit:contain;filter:contrast(1.02);}
+  .lightbox .lb-caption{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);text-align:center;color:var(--muted);font-size:13px;letter-spacing:.08em;text-transform:uppercase;}
+  .lb-close, .lb-prev, .lb-next{
+    position:absolute;background:none;border:1px solid var(--line-strong);color:var(--ink);
+    width:48px;height:48px;display:flex;align-items:center;justify-content:center;transition:border-color .3s, background .3s;
+  }
+  .lb-close:hover, .lb-prev:hover, .lb-next:hover{border-color:var(--accent);background:var(--accent-soft);}
+  .lb-close{top:28px;right:28px;}
+  .lb-prev{left:28px;top:50%;transform:translateY(-50%);}
+  .lb-next{right:28px;top:50%;transform:translateY(-50%);}
+  @media (max-width:700px){ .lb-prev,.lb-next{width:38px;height:38px;} .lb-close{width:38px;height:38px;top:16px;right:16px;} }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to content</a>
+
+<div class="sprocket-rail" aria-hidden="true"></div>
+
+<div class="frame-counter" aria-hidden="true">
+  <span class="fc-num" id="fcTop">FR 000</span>
+  <div class="fc-track"><div class="fc-fill" id="fcFill"></div></div>
+  <span class="fc-num">SCROLL</span>
+</div>
+
+<header class="site-nav" id="siteNav">
+  <a href="#main" class="logo">SINEERA<span>.</span><small>FRAMES &amp; PHOTOGRAPHY</small></a>
+  <nav class="primary-links" aria-label="Primary">
+    <a href="#about">About</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#services">Services</a>
+    <a href="#testimonials">Words</a>
+    <a href="#contact" class="nav-contact-btn">Contact</a>
+  </nav>
+  <button class="burger" id="burgerBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+    <span></span><span></span>
+  </button>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about">About</a>
+  <a href="#portfolio">Portfolio</a>
+  <a href="#services">Services</a>
+  <a href="#testimonials">Words</a>
+  <a href="#contact">Contact</a>
+  <span class="mm-contact">hello@sineera.studio — +91 92098 05054</span>
+</div>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-media" id="heroMedia">
+      <div class="hero-slide is-active" data-cat="Weddings" data-title="A Monsoon Vow">
+        <img src="https://picsum.photos/seed/sineera-wed-01/1800/2200" alt="Bride laughing during a monsoon wedding ceremony" loading="eager">
+      </div>
+      <div class="hero-slide" data-cat="Portraits" data-title="Still Light">
+        <img src="https://picsum.photos/seed/sineera-por-01/1800/2200" alt="Editorial portrait of a woman lit by window light" loading="lazy">
+      </div>
+      <div class="hero-slide" data-cat="Events" data-title="The After Hours">
+        <img src="https://picsum.photos/seed/sineera-evt-01/1800/2200" alt="Guests dancing at a candle-lit evening event" loading="lazy">
+      </div>
+      <div class="hero-slide" data-cat="Pre-Shoots" data-title="Before the Vows">
+        <img src="https://picsum.photos/seed/sineera-pre-01/1800/2200" alt="Couple walking through a field during a pre-wedding shoot" loading="lazy">
+      </div>
+      <div class="hero-slide" data-cat="Commercial" data-title="Object Study 04">
+        <img src="https://picsum.photos/seed/sineera-com-01/1800/2200" alt="Minimal product photography of a leather bag" loading="lazy">
+      </div>
+      <div class="hero-slide" data-cat="Birthdays" data-title="Turning Seven">
+        <img src="https://picsum.photos/seed/sineera-bday-01/1800/2200" alt="Child blowing out birthday candles surrounded by family" loading="lazy">
+      </div>
+    </div>
+    <div class="hero-content">
+      <div>
+        <span class="eyebrow hero-tag" id="heroTag"><span class="hero-tag-dot" aria-hidden="true"></span><span id="heroTagText">Weddings — A Monsoon Vow</span></span>
+        <h1 class="hero-heading">FRAMES THAT<br>OUTLAST THE<br><em>MOMENT.</em></h1>
+        <p class="hero-sub">SINEERA is a photography studio built around one idea — the moments people replay for a lifetime deserve to be shot like film, not filed like content.</p>
+      </div>
+      <div class="hero-actions">
+        <a href="#portfolio" class="btn btn-solid">View Portfolio</a>
+        <a href="#contact" class="btn btn-ghost">Contact</a>
+      </div>
+    </div>
+    <div class="hero-slide-nav" id="heroSlideNav" role="tablist" aria-label="Featured category"></div>
+    <div class="scroll-cue" aria-hidden="true"><span class="line"></span> SCROLL</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="wrap about-grid">
+      <div class="about-media reveal">
+        <img src="https://picsum.photos/seed/sineera-about-01/900/1120" alt="Photographer adjusting a camera on location during golden hour" loading="lazy">
+        <span class="frame-tag">FR 012 — ON LOCATION</span>
+      </div>
+      <div class="about-copy">
+        <span class="eyebrow reveal">Behind Every Frame</span>
+        <div class="reveal reveal-delay-1" style="margin-top:20px;">
+          <p>SINEERA began with a simple refusal — to shoot moments the way everyone else does. Every wedding, every portrait, every quiet in-between second is treated as a scene worth composing, not just capturing.</p>
+          <p>Founded in 2016 and now working across cities and coastlines, the studio pairs documentary instinct with an editorial eye — building images and films that read like they were always meant to last.</p>
+        </div>
+        <div class="stats reveal reveal-delay-2">
+          <div>
+            <div class="stat-num">260+</div>
+            <div class="stat-label">Weddings Directed</div>
+          </div>
+          <div>
+            <div class="stat-num">9</div>
+            <div class="stat-label">Years Behind the Lens</div>
+          </div>
+          <div>
+            <div class="stat-num">40+</div>
+            <div class="stat-label">Cities Shot In</div>
+          </div>
+          <div>
+            <div class="stat-num">1</div>
+            <div class="stat-label">Story at a Time</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 class="section-title">Selected<br>Frames</h2>
+        <p class="section-note">A working archive — weddings, events, portraits, birthdays, pre-shoots and commercial work, shot on assignment and off the clock.</p>
+      </div>
+
+      <div class="filters reveal" id="filterGroup" role="group" aria-label="Filter portfolio by category">
+        <button class="filter-btn" data-filter="all" aria-pressed="true">All Work</button>
+        <button class="filter-btn" data-filter="weddings" aria-pressed="false">Weddings</button>
+        <button class="filter-btn" data-filter="events" aria-pressed="false">Events</button>
+        <button class="filter-btn" data-filter="portraits" aria-pressed="false">Portraits</button>
+        <button class="filter-btn" data-filter="birthdays" aria-pressed="false">Birthdays</button>
+        <button class="filter-btn" data-filter="preshoots" aria-pressed="false">Pre-Shoots</button>
+        <button class="filter-btn" data-filter="commercial" aria-pressed="false">Commercial</button>
+      </div>
+
+      <div class="gallery reveal" id="gallery">
+        <div class="g-item" data-cat="weddings"><button class="g-expand" aria-label="Open image: A Monsoon Vow, Weddings"></button><img src="https://picsum.photos/seed/sineera-wed-01/800/1050" alt="Bride laughing during a monsoon wedding ceremony" loading="lazy"><div class="g-caption"><div class="g-cat">Weddings</div><div class="g-title">A Monsoon Vow</div></div></div>
+
+        <div class="g-item" data-cat="portraits"><button class="g-expand" aria-label="Open image: Still Light, Portraits"></button><img src="https://picsum.photos/seed/sineera-por-01/800/1000" alt="Editorial portrait of a woman lit by window light" loading="lazy"><div class="g-caption"><div class="g-cat">Portraits</div><div class="g-title">Still Light</div></div></div>
+
+        <div class="g-item" data-cat="events"><button class="g-expand" aria-label="Open image: The After Hours, Events"></button><img src="https://picsum.photos/seed/sineera-evt-01/800/1100" alt="Guests dancing at a candle-lit evening event" loading="lazy"><div class="g-caption"><div class="g-cat">Events</div><div class="g-title">The After Hours</div></div></div>
+
+        <div class="g-item" data-cat="weddings"><button class="g-expand" aria-label="Open image: Two Families, One Table, Weddings"></button><img src="https://picsum.photos/seed/sineera-wed-02/800/650" alt="Wedding families gathered around a decorated table" loading="lazy"><div class="g-caption"><div class="g-cat">Weddings</div><div class="g-title">Two Families, One Table</div></div></div>
+
+        <div class="g-item" data-cat="preshoots"><button class="g-expand" aria-label="Open image: Before the Vows, Pre-Shoots"></button><img src="https://picsum.photos/seed/sineera-pre-01/800/1050" alt="Couple walking through a field during a pre-wedding shoot" loading="lazy"><div class="g-caption"><div class="g-cat">Pre-Shoots</div><div class="g-title">Before the Vows</div></div></div>
+
+        <div class="g-item" data-cat="commercial"><button class="g-expand" aria-label="Open image: Object Study 04, Commercial"></button><img src="https://picsum.photos/seed/sineera-com-01/800/800" alt="Minimal product photography of a leather bag" loading="lazy"><div class="g-caption"><div class="g-cat">Commercial</div><div class="g-title">Object Study 04</div></div></div>
+
+        <div class="g-item" data-cat="birthdays"><button class="g-expand" aria-label="Open image: Turning Seven, Birthdays"></button><img src="https://picsum.photos/seed/sineera-bday-01/800/620" alt="Child blowing out birthday candles surrounded by family" loading="lazy"><div class="g-caption"><div class="g-cat">Birthdays</div><div class="g-title">Turning Seven</div></div></div>
+
+        <div class="g-item" data-cat="portraits"><button class="g-expand" aria-label="Open image: The Long Look, Portraits"></button><img src="https://picsum.photos/seed/sineera-por-02/800/1120" alt="Close-up editorial portrait with dramatic shadow" loading="lazy"><div class="g-caption"><div class="g-cat">Portraits</div><div class="g-title">The Long Look</div></div></div>
+
+        <div class="g-item" data-cat="events"><button class="g-expand" aria-label="Open image: Corner Office, Events"></button><img src="https://picsum.photos/seed/sineera-evt-02/800/980" alt="Corporate event guests in conversation" loading="lazy"><div class="g-caption"><div class="g-cat">Events</div><div class="g-title">Corner Office</div></div></div>
+
+        <div class="g-item" data-cat="weddings"><button class="g-expand" aria-label="Open image: First Look, Weddings"></button><img src="https://picsum.photos/seed/sineera-wed-03/800/1150" alt="Groom's reaction seeing the bride for the first time" loading="lazy"><div class="g-caption"><div class="g-cat">Weddings</div><div class="g-title">First Look</div></div></div>
+
+        <div class="g-item" data-cat="preshoots"><button class="g-expand" aria-label="Open image: Coastline, Pre-Shoots"></button><img src="https://picsum.photos/seed/sineera-pre-02/800/700" alt="Couple silhouetted on a coastal cliff at sunset" loading="lazy"><div class="g-caption"><div class="g-cat">Pre-Shoots</div><div class="g-title">Coastline</div></div></div>
+
+        <div class="g-item" data-cat="commercial"><button class="g-expand" aria-label="Open image: Campaign 02, Commercial"></button><img src="https://picsum.photos/seed/sineera-com-02/800/1020" alt="Fashion campaign photograph on a plain backdrop" loading="lazy"><div class="g-caption"><div class="g-cat">Commercial</div><div class="g-title">Campaign 02</div></div></div>
+
+        <div class="g-item" data-cat="birthdays"><button class="g-expand" aria-label="Open image: Balloons at Dusk, Birthdays"></button><img src="https://picsum.photos/seed/sineera-bday-02/800/920" alt="Birthday celebration with balloons at dusk" loading="lazy"><div class="g-caption"><div class="g-cat">Birthdays</div><div class="g-title">Balloons at Dusk</div></div></div>
+
+        <div class="g-item" data-cat="portraits"><button class="g-expand" aria-label="Open image: In Character, Portraits"></button><img src="https://picsum.photos/seed/sineera-por-03/800/1100" alt="Character portrait with theatrical lighting" loading="lazy"><div class="g-caption"><div class="g-cat">Portraits</div><div class="g-title">In Character</div></div></div>
+
+        <div class="g-item" data-cat="events"><button class="g-expand" aria-label="Open image: Toast, Events"></button><img src="https://picsum.photos/seed/sineera-evt-03/800/610" alt="Guests raising a toast at an evening celebration" loading="lazy"><div class="g-caption"><div class="g-cat">Events</div><div class="g-title">Toast</div></div></div>
+
+        <div class="g-item" data-cat="weddings"><button class="g-expand" aria-label="Open image: The Long Way Home, Weddings"></button><img src="https://picsum.photos/seed/sineera-wed-04/800/1180" alt="Bride and groom walking away down a long aisle at dusk" loading="lazy"><div class="g-caption"><div class="g-cat">Weddings</div><div class="g-title">The Long Way Home</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED STORY -->
+  <section class="story" id="featuredStory">
+    <div class="story-media" id="storyParallax">
+      <img src="https://picsum.photos/seed/sineera-story-01/2000/1300" alt="Wide cinematic shot of a wedding procession at dusk under string lights" loading="lazy">
+    </div>
+    <div class="story-content">
+      <div class="story-meta reveal"><span>Featured Story</span><span class="dot"></span><span>Wedding Film — Udaipur</span></div>
+      <h2 class="story-title reveal reveal-delay-1">THE LONG<br>WAY HOME</h2>
+      <p class="story-desc reveal reveal-delay-2">Three days, one lakeside city, and a wedding that unfolded like a film we didn't have to direct. This is the story of how it was shot, frame by frame.</p>
+      <a href="#contact" class="story-link reveal reveal-delay-2">
+        Read the full story
+        <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M1 7H19M19 7L13 1M19 7L13 13" stroke="currentColor" stroke-width="1.4"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 class="section-title">What We<br>Shoot</h2>
+        <p class="section-note">Five disciplines, one point of view. Hover a line to see it in frame.</p>
+      </div>
+      <div class="services-list reveal">
+        <div class="service-row">
+          <span class="s-index">F01</span>
+          <div>
+            <div class="s-name">Weddings</div>
+            <div class="s-desc">Full-day documentary coverage, cinematic edits, and albums built to be reopened for decades.</div>
+          </div>
+          <span class="s-thumb"><img src="https://picsum.photos/seed/sineera-svc-wed/300/380" alt="" loading="lazy"></span>
+          <span class="s-arrow" aria-hidden="true">↗</span>
+        </div>
+        <div class="service-row">
+          <span class="s-index">F02</span>
+          <div>
+            <div class="s-name">Pre-Wedding &amp; Couples</div>
+            <div class="s-desc">Story-led shoots across locations that actually mean something to the two of you.</div>
+          </div>
+          <span class="s-thumb"><img src="https://picsum.photos/seed/sineera-svc-pre/300/380" alt="" loading="lazy"></span>
+          <span class="s-arrow" aria-hidden="true">↗</span>
+        </div>
+        <div class="service-row">
+          <span class="s-index">F03</span>
+          <div>
+            <div class="s-name">Events &amp; Celebrations</div>
+            <div class="s-desc">Corporate gatherings, birthdays, and milestones — captured as they unfold, not staged after.</div>
+          </div>
+          <span class="s-thumb"><img src="https://picsum.photos/seed/sineera-svc-evt/300/380" alt="" loading="lazy"></span>
+          <span class="s-arrow" aria-hidden="true">↗</span>
+        </div>
+        <div class="service-row">
+          <span class="s-index">F04</span>
+          <div>
+            <div class="s-name">Portraits</div>
+            <div class="s-desc">Editorial portraiture for individuals, families, and founders who want to be seen clearly.</div>
+          </div>
+          <span class="s-thumb"><img src="https://picsum.photos/seed/sineera-svc-por/300/380" alt="" loading="lazy"></span>
+          <span class="s-arrow" aria-hidden="true">↗</span>
+        </div>
+        <div class="service-row">
+          <span class="s-index">F05</span>
+          <div>
+            <div class="s-name">Commercial</div>
+            <div class="s-desc">Product, campaign, and brand photography shot with the same intent as any other frame.</div>
+          </div>
+          <span class="s-thumb"><img src="https://picsum.photos/seed/sineera-svc-com/300/380" alt="" loading="lazy"></span>
+          <span class="s-arrow" aria-hidden="true">↗</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="testimonials">
+    <div class="wrap">
+      <span class="eyebrow reveal">In Their Words</span>
+      <div class="t-track-wrap reveal" style="margin-top:34px;">
+        <div class="t-track" id="tTrack">
+          <div class="t-slide">
+            <p class="t-quote">SINEERA didn't just document our wedding, they directed it like a film we're still watching back. Every frame felt intentional.</p>
+            <p class="t-attr"><span>Ananya Kapoor</span> — Bride, Udaipur Wedding</p>
+          </div>
+          <div class="t-slide">
+            <p class="t-quote">We've hired a lot of photographers for campaign work. Nobody else treats a product shoot with the same patience as a portrait.</p>
+            <p class="t-attr"><span>Studio Loom</span> — Creative Director</p>
+          </div>
+          <div class="t-slide">
+            <p class="t-quote">Our launch event needed someone who could move through a room without disrupting it. That's exactly what we got.</p>
+            <p class="t-attr"><span>Ravi Mendis</span> — Founder, Ari &amp; Co.</p>
+          </div>
+        </div>
+      </div>
+      <div class="t-controls reveal">
+        <button class="t-nav-btn" id="tPrev" aria-label="Previous testimonial">←</button>
+        <button class="t-nav-btn" id="tNext" aria-label="Next testimonial">→</button>
+        <div style="display:flex;gap:8px;margin-left:12px;" id="tDots" role="tablist" aria-label="Testimonial navigation"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <div class="wrap">
+      <span class="eyebrow reveal">Ready When You Are</span>
+      <h2 class="cta-title reveal reveal-delay-1">LET'S CREATE<br><span class="accent-line">SOMETHING TIMELESS.</span></h2>
+      <div class="cta-actions reveal reveal-delay-2">
+        <a href="#contact" class="btn btn-solid">Start a Conversation</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">SINEERA<span>.</span></div>
+        <p class="footer-tag">Frames &amp; Photography — a cinematic studio shooting weddings, events, portraits and stories worth keeping.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Get in Touch</h4>
+        <ul>
+          <li><a href="https://wa.me/919209805054" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.32A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.13c-.22.62-1.28 1.18-1.77 1.24-.45.06-1.02.08-1.65-.1-.38-.12-.87-.28-1.5-.55-2.63-1.13-4.35-3.78-4.48-3.96-.13-.18-1.07-1.42-1.07-2.71 0-1.29.68-1.92.92-2.18.24-.26.53-.32.7-.32.18 0 .35 0 .5.01.16.01.38-.06.6.46.22.53.75 1.83.82 1.96.06.13.1.29.02.47-.08.18-.13.29-.25.44-.13.16-.27.35-.38.47-.13.13-.26.27-.11.53.15.26.66 1.09 1.42 1.77.98.87 1.8 1.14 2.06 1.27.26.13.41.11.56-.06.16-.18.65-.76.83-1.02.18-.26.35-.21.6-.13.24.09 1.53.72 1.79.85.26.13.43.19.5.3.06.11.06.63-.16 1.25z"/></svg>
+            WhatsApp
+          </a></li>
+          <li><a href="mailto:hello@sineera.studio">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="20" height="16" rx="1"/><path d="M2 6l10 8 10-8"/></svg>
+            hello@sineera.studio
+          </a></li>
+          <li><a href="tel:+919209805054">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.98.36 1.94.68 2.86a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.22-1.22a2 2 0 012.11-.45c.92.32 1.88.55 2.86.68A2 2 0 0122 16.92z"/></svg>
+            +91 92098 05054
+          </a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <ul>
+          <li><a href="https://instagram.com/div_yesh_art" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+            Instagram
+          </a></li>
+          <li><a href="https://facebook.com" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            Facebook
+          </a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> SINEERA Studio. All frames reserved.</span>
+      <span>Built for those who shoot in stories, not snapshots.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lb-close" id="lbClose" aria-label="Close image viewer">✕</button>
+  <button class="lb-prev" id="lbPrev" aria-label="Previous image">←</button>
+  <img id="lbImg" src="" alt="">
+  <button class="lb-next" id="lbNext" aria-label="Next image">→</button>
+  <div class="lb-caption" id="lbCaption"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(async function(){
+  "use strict";
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ============================================================
+     SINEERA live content — pulled from Supabase (set by admin.html)
+     Paste your project's URL + anon public key below once you've
+     run supabase-schema.sql. Until then the site quietly falls
+     back to the content already written into this HTML.
+     ============================================================ */
+  var SUPABASE_URL = "YOUR_SUPABASE_URL";
+  var SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+  var sb = (window.supabase && SUPABASE_URL.indexOf('YOUR_') !== 0)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+
+  var CATEGORY_LABELS = { weddings:'Weddings', events:'Events', portraits:'Portraits', birthdays:'Birthdays', preshoots:'Pre-Shoots', commercial:'Commercial' };
+
+  function esc(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function renderHero(rows){
+    var media = document.getElementById('heroMedia');
+    if(!media || !rows.length) return;
+    media.innerHTML = rows.map(function(r, i){
+      return '<div class="hero-slide' + (i === 0 ? ' is-active' : '') + '" data-cat="' + esc(r.category) + '" data-title="' + esc(r.title) + '">' +
+        '<img src="' + esc(r.image_url) + '" alt="' + esc(r.category + ' — ' + r.title) + '" loading="' + (i === 0 ? 'eager' : 'lazy') + '">' +
+        '</div>';
+    }).join('');
+  }
+
+  function renderGallery(rows){
+    var gal = document.getElementById('gallery');
+    if(!gal || !rows.length) return;
+    gal.innerHTML = rows.map(function(r){
+      var catLabel = CATEGORY_LABELS[r.category] || r.category;
+      return '<div class="g-item" data-cat="' + esc(r.category) + '">' +
+        '<button class="g-expand" aria-label="Open image: ' + esc(r.title) + ', ' + esc(catLabel) + '"></button>' +
+        '<img src="' + esc(r.image_url) + '" alt="' + esc(r.alt_text || r.title) + '" loading="lazy">' +
+        '<div class="g-caption"><div class="g-cat">' + esc(catLabel) + '</div><div class="g-title">' + esc(r.title) + '</div></div>' +
+        '</div>';
+    }).join('');
+  }
+
+  function renderTestimonials(rows){
+    var track = document.getElementById('tTrack');
+    if(!track || !rows.length) return;
+    track.innerHTML = rows.map(function(r){
+      return '<div class="t-slide"><p class="t-quote">' + esc(r.quote) + '</p><p class="t-attr"><span>' + esc(r.name) + '</span>' + (r.role ? ' — ' + esc(r.role) : '') + '</p></div>';
+    }).join('');
+  }
+
+  function renderServices(rows){
+    var list = document.querySelector('.services-list');
+    if(!list || !rows.length) return;
+    list.innerHTML = rows.map(function(r, i){
+      var idx = 'F' + String(i + 1).padStart(2, '0');
+      return '<div class="service-row"><span class="s-index">' + idx + '</span><div><div class="s-name">' + esc(r.name) + '</div><div class="s-desc">' + esc(r.description) + (r.price ? ' <strong style="color:var(--accent)">— ' + esc(r.price) + '</strong>' : '') + '</div></div>' +
+        (r.image_url ? '<span class="s-thumb"><img src="' + esc(r.image_url) + '" alt="" loading="lazy"></span>' : '') +
+        '<span class="s-arrow" aria-hidden="true">↗</span></div>';
+    }).join('');
+  }
+
+  async function loadLiveContent(){
+    if(!sb) return;
+    try{
+      var results = await Promise.all([
+        sb.from('hero_slides').select('*').order('sort_order', {ascending:true}),
+        sb.from('gallery_items').select('*').order('sort_order', {ascending:true}),
+        sb.from('testimonials').select('*').order('sort_order', {ascending:true}),
+        sb.from('services').select('*').order('sort_order', {ascending:true})
+      ]);
+      if(results[0].data) renderHero(results[0].data);
+      if(results[1].data) renderGallery(results[1].data);
+      if(results[2].data) renderTestimonials(results[2].data);
+      if(results[3].data) renderServices(results[3].data);
+    }catch(err){
+      console.warn('SINEERA: could not load live content from Supabase, showing built-in defaults.', err);
+    }
+  }
+  await loadLiveContent();
+
+  /* Year */
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* Nav scroll state */
+  var nav = document.getElementById('siteNav');
+  function onScrollNav(){
+    if(window.scrollY > 40){ nav.classList.add('scrolled'); } else { nav.classList.remove('scrolled'); }
+  }
+  onScrollNav();
+  window.addEventListener('scroll', onScrollNav, {passive:true});
+
+  /* Mobile menu */
+  var burger = document.getElementById('burgerBtn');
+  var mmenu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', function(){
+    var open = mmenu.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open ? 'true':'false');
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  mmenu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      mmenu.classList.remove('open');
+      burger.setAttribute('aria-expanded','false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  /* Reveal on scroll */
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window && !reduceMotion){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.14, rootMargin:'0px 0px -60px 0px'});
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  /* Hero banner — rotates through the site's real gallery categories, Netflix-hero style */
+  var heroSlides = Array.prototype.slice.call(document.querySelectorAll('.hero-slide'));
+  var heroTagText = document.getElementById('heroTagText');
+  var heroSlideNav = document.getElementById('heroSlideNav');
+  var heroIndex = 0;
+  var heroImg = heroSlides.length ? heroSlides[0].querySelector('img') : null;
+
+  if(heroSlides.length > 1 && heroSlideNav){
+    heroSlides.forEach(function(slide, i){
+      var dot = document.createElement('button');
+      dot.type = 'button';
+      dot.setAttribute('role','tab');
+      dot.setAttribute('aria-label', 'Show ' + slide.dataset.cat + ' frame');
+      if(i === 0){ dot.classList.add('is-active'); dot.setAttribute('aria-selected','true'); }
+      else { dot.setAttribute('aria-selected','false'); }
+      dot.addEventListener('click', function(){ goToHeroSlide(i); resetHeroTimer(); });
+      heroSlideNav.appendChild(dot);
+    });
+  }
+
+  function goToHeroSlide(i){
+    if(!heroSlides.length) return;
+    heroSlides[heroIndex].classList.remove('is-active');
+    var dots = heroSlideNav ? heroSlideNav.children : [];
+    if(dots[heroIndex]){ dots[heroIndex].classList.remove('is-active'); dots[heroIndex].setAttribute('aria-selected','false'); }
+
+    heroIndex = i;
+    var active = heroSlides[heroIndex];
+    active.classList.add('is-active');
+    heroImg = active.querySelector('img');
+    if(dots[heroIndex]){ dots[heroIndex].classList.add('is-active'); dots[heroIndex].setAttribute('aria-selected','true'); }
+    if(heroTagText){ heroTagText.textContent = active.dataset.cat + ' — ' + active.dataset.title; }
+  }
+
+  var heroTimer = null;
+  function startHeroTimer(){
+    if(reduceMotion || heroSlides.length < 2) return;
+    heroTimer = setInterval(function(){
+      goToHeroSlide((heroIndex + 1) % heroSlides.length);
+    }, 5000);
+  }
+  function resetHeroTimer(){
+    if(heroTimer){ clearInterval(heroTimer); }
+    startHeroTimer();
+  }
+  startHeroTimer();
+
+  /* Frame counter + parallax on rAF */
+  var fcFill = document.getElementById('fcFill');
+  var fcTop = document.getElementById('fcTop');
+  var storyImg = document.querySelector('#storyParallax img');
+  var ticking = false;
+
+  function update(){
+    var doc = document.documentElement;
+    var scrollTop = window.scrollY;
+    var max = doc.scrollHeight - window.innerHeight;
+    var pct = max > 0 ? Math.min(1, scrollTop / max) : 0;
+
+    if(fcFill){ fcFill.style.height = (pct*100).toFixed(1)+'%'; }
+    if(fcTop){ fcTop.textContent = 'FR ' + String(Math.round(pct*240)).padStart(3,'0'); }
+
+    if(!reduceMotion){
+      if(heroImg){
+        var heroRect = document.getElementById('hero').getBoundingClientRect();
+        var shift = Math.max(-60, Math.min(60, heroRect.top * -0.08));
+        heroImg.style.transform = 'scale(1.08) translateY(' + shift + 'px)';
+      }
+      if(storyImg){
+        var storyRect = document.getElementById('featuredStory').getBoundingClientRect();
+        var wh = window.innerHeight;
+        if(storyRect.top < wh && storyRect.bottom > 0){
+          var progress = (wh - storyRect.top) / (wh + storyRect.height);
+          var shift2 = (progress - 0.5) * 90;
+          storyImg.style.transform = 'translateY(' + shift2 + 'px) scale(1.12)';
+        }
+      }
+    }
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if(!ticking){ window.requestAnimationFrame(update); ticking = true; }
+  }, {passive:true});
+  update();
+
+  /* Portfolio filters */
+  var filterBtns = document.querySelectorAll('.filter-btn');
+  var galleryItems = document.querySelectorAll('.g-item');
+  filterBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filterBtns.forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+      btn.setAttribute('aria-pressed','true');
+      var f = btn.getAttribute('data-filter');
+      galleryItems.forEach(function(item){
+        var show = (f === 'all') || (item.getAttribute('data-cat') === f);
+        item.classList.toggle('hidden-item', !show);
+      });
+    });
+  });
+
+  /* Lightbox */
+  var lightbox = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lbImg');
+  var lbCaption = document.getElementById('lbCaption');
+  var lbClose = document.getElementById('lbClose');
+  var lbPrev = document.getElementById('lbPrev');
+  var lbNext = document.getElementById('lbNext');
+  var lastFocused = null;
+  var currentIndex = 0;
+
+  function visibleItems(){
+    return Array.prototype.filter.call(galleryItems, function(it){ return !it.classList.contains('hidden-item'); });
+  }
+
+  function openLightbox(index){
+    var items = visibleItems();
+    if(!items.length) return;
+    currentIndex = ((index % items.length) + items.length) % items.length;
+    var item = items[currentIndex];
+    var img = item.querySelector('img');
+    var cat = item.querySelector('.g-cat') ? item.querySelector('.g-cat').textContent : '';
+    var title = item.querySelector('.g-title') ? item.querySelector('.g-title').textContent : '';
+    lbImg.src = img.src.replace(/\/800\//,'/1400/');
+    lbImg.alt = img.alt;
+    lbCaption.textContent = cat + ' — ' + title;
+    lastFocused = document.activeElement;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    lbClose.focus();
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+    if(lastFocused){ lastFocused.focus(); }
+  }
+
+  galleryItems.forEach(function(item, idxAll){
+    var btn = item.querySelector('.g-expand');
+    btn.addEventListener('click', function(){
+      var items = visibleItems();
+      var i = items.indexOf(item);
+      openLightbox(i);
+    });
+  });
+
+  lbClose.addEventListener('click', closeLightbox);
+  lbPrev.addEventListener('click', function(){ openLightbox(currentIndex - 1); });
+  lbNext.addEventListener('click', function(){ openLightbox(currentIndex + 1); });
+  lightbox.addEventListener('click', function(e){ if(e.target === lightbox){ closeLightbox(); } });
+  document.addEventListener('keydown', function(e){
+    if(!lightbox.classList.contains('open')) return;
+    if(e.key === 'Escape'){ closeLightbox(); }
+    if(e.key === 'ArrowLeft'){ openLightbox(currentIndex - 1); }
+    if(e.key === 'ArrowRight'){ openLightbox(currentIndex + 1); }
+  });
+
+  /* Testimonials slider */
+  var tTrack = document.getElementById('tTrack');
+  var tSlides = document.querySelectorAll('.t-slide');
+  var tDots = document.getElementById('tDots');
+  var tIndex = 0;
+  tSlides.forEach(function(_, i){
+    var d = document.createElement('button');
+    d.className = 't-dot';
+    d.setAttribute('aria-label', 'Go to testimonial ' + (i+1));
+    d.setAttribute('aria-current', i === 0 ? 'true' : 'false');
+    d.addEventListener('click', function(){ goTo(i); });
+    tDots.appendChild(d);
+  });
+  function goTo(i){
+    tIndex = ((i % tSlides.length) + tSlides.length) % tSlides.length;
+    tTrack.style.transform = 'translateX(-' + (tIndex*100) + '%)';
+    tDots.querySelectorAll('.t-dot').forEach(function(d, di){
+      d.setAttribute('aria-current', di === tIndex ? 'true' : 'false');
+    });
+  }
+  document.getElementById('tPrev').addEventListener('click', function(){ goTo(tIndex-1); });
+  document.getElementById('tNext').addEventListener('click', function(){ goTo(tIndex+1); });
+
+  var tAutoTimer = null;
+  function startAuto(){
+    if(reduceMotion) return;
+    tAutoTimer = setInterval(function(){ goTo(tIndex+1); }, 6500);
+  }
+  function stopAuto(){ if(tAutoTimer) clearInterval(tAutoTimer); }
+  startAuto();
+  document.getElementById('testimonials').addEventListener('mouseenter', stopAuto);
+  document.getElementById('testimonials').addEventListener('mouseleave', startAuto);
+
+})();
+</script>
+
+</body>
+</html>
