@@ -21,8 +21,11 @@
      ============================================================ -->
 <script id="sineera-image-config">
   window.SINEERA_IMAGES = {
-    hero: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462670/WhatsApp_Image_2026-08-23_at_9.56.10_AM_1.jpg",
-    photographerPortrait: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787475407/WhatsApp_Image_2026-08-23_at_2.26.29_PM.jpg",
+    hero: {
+      desktop: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&crop=entropy&w=2400&h=1350&q=80",
+      mobile:  "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&crop=entropy&w=1200&h=1600&q=80"
+    },
+    photographerPortrait: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=1400&q=80",
     categories: {
       weddings:   "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
       portraits:  "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1200&q=80",
@@ -185,7 +188,8 @@
     display:flex; align-items:flex-end; overflow:hidden;
   }
   .hero-media{ position:absolute; inset:0; }
-  .hero-media img{ transform:scale(1.08); will-change:transform; object-position:center 38%; }
+  .hero-media picture{ position:absolute; inset:0; display:block; width:100%; height:100%; }
+  .hero-media img{ transform:scale(1.08); will-change:transform; object-position:center; }
   .hero-media::after{
     content:''; position:absolute; inset:0;
     background:
@@ -473,7 +477,11 @@
      ============================================================ -->
 <section class="hero" id="top">
   <div class="hero-media" id="heroMedia">
-    <img id="heroImg" src="" alt="Cinematic wedding photograph on a coastal cliff at golden hour">
+    <picture>
+      <source id="heroSourceMobile" media="(max-width:760px)">
+      <source id="heroSourceDesktop" media="(min-width:761px)">
+      <img id="heroImg" src="" alt="Cinematic wedding photograph on a coastal cliff at golden hour">
+    </picture>
   </div>
   <div class="hero-content">
     <div class="hero-eyebrow"><span class="dash"></span><span class="eyebrow">Frames &amp; Photography</span></div>
@@ -681,7 +689,12 @@
   const IMG = window.SINEERA_IMAGES;
 
   // ---- populate hero / about / contact backdrop images ----
-  document.getElementById('heroImg').src = IMG.hero;
+  // hero uses <picture> so mobile and laptop/desktop each load a
+  // crop that's actually framed for that aspect ratio, instead of
+  // one wide image being stretched/cropped the same way everywhere.
+  document.getElementById('heroSourceMobile').srcset = IMG.hero.mobile;
+  document.getElementById('heroSourceDesktop').srcset = IMG.hero.desktop;
+  document.getElementById('heroImg').src = IMG.hero.desktop;
   document.getElementById('aboutImg').src = IMG.photographerPortrait;
   document.getElementById('contactImg').src = IMG.categories.commercial;
 
