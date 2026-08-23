@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SINEERA — Frames &amp; Photography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   SINEERA — CENTRAL IMAGE CONFIG
+   Replace any URL below to swap imagery site-wide.
+   ============================================================ */
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     IMAGE CONFIG (centralized — edit here to replace any photo)
+     ============================================================ -->
+<script id="sineera-image-config">
+  window.SINEERA_IMAGES = {
+    hero: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2400&q=80",
+    photographerPortrait: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=1400&q=80",
+    categories: {
+      weddings:   "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
+      portraits:  "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1200&q=80",
+      events:     "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1200&q=80",
+      fashion:    "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80",
+      travel:     "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=80",
+      commercial: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1200&q=80"
+    },
+    featured: [
+      {
+        title: "Amara & Julien",
+        category: "Weddings",
+        location: "Lake Como, Italy",
+        img: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=2000&q=80"
+      },
+      {
+        title: "Monochrome Studies",
+        category: "Portraits",
+        location: "Studio 4, London",
+        img: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=2000&q=80"
+      },
+      {
+        title: "Nocturne Gala",
+        category: "Events",
+        location: "The Savoy, London",
+        img: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=2000&q=80"
+      },
+      {
+        title: "Season Nine",
+        category: "Fashion",
+        location: "Paris Fashion Week",
+        img: "https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?auto=format&fit=crop&w=2000&q=80"
+      },
+      {
+        title: "Altitude",
+        category: "Travel",
+        location: "Dolomites, Italy",
+        img: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=80"
+      },
+      {
+        title: "Obsidian Line",
+        category: "Commercial",
+        location: "Product Campaign",
+        img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=2000&q=80"
+      }
+    ]
+  };
+</script>
+
+<style>
+  :root{
+    --ink:#0a0a09;
+    --ink-2:#141311;
+    --ink-3:#1d1c19;
+    --paper:#f3efe8;
+    --paper-dim:#a7a196;
+    --line:rgba(243,239,232,0.14);
+    --ember:#e8792e;
+    --ember-2:#f4a340;
+    --ff-display:'Big Shoulders Display', sans-serif;
+    --ff-serif:'Instrument Serif', serif;
+    --ff-body:'Inter', sans-serif;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--ff-body);
+    font-weight:300;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  a{color:inherit;text-decoration:none;}
+  img{display:block;width:100%;height:100%;object-fit:cover;}
+  ::selection{background:var(--ember);color:var(--ink);}
+
+  .eyebrow{
+    font-family:var(--ff-body);
+    font-size:11px;
+    letter-spacing:0.32em;
+    text-transform:uppercase;
+    color:var(--ember-2);
+    font-weight:500;
+  }
+
+  h1,h2,h3,.disp{
+    font-family:var(--ff-display);
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    line-height:0.92;
+  }
+  .serif-italic{ font-family:var(--ff-serif); font-style:italic; font-weight:400; text-transform:none; letter-spacing:0; }
+
+  :focus-visible{ outline:2px solid var(--ember-2); outline-offset:3px; }
+
+  /* ---------- layout shell ---------- */
+  .wrap{ max-width:1440px; margin:0 auto; padding:0 clamp(20px,5vw,64px); }
+
+  /* ---------- nav ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px clamp(20px,5vw,64px);
+    transition:background .4s ease, backdrop-filter .4s ease, padding .4s ease, border-color .4s ease;
+    border-bottom:1px solid transparent;
+  }
+  header.scrolled{
+    background:rgba(10,10,9,0.82);
+    backdrop-filter:blur(14px);
+    padding-top:14px; padding-bottom:14px;
+    border-bottom:1px solid var(--line);
+  }
+  .brand{
+    font-family:var(--ff-display); font-weight:700; font-size:22px;
+    letter-spacing:0.24em; text-transform:uppercase;
+  }
+  .brand span{ color:var(--ember-2); }
+  nav.links{ display:flex; gap:40px; align-items:center; }
+  nav.links a{
+    font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--paper-dim); position:relative; padding-bottom:4px;
+    transition:color .25s ease;
+  }
+  nav.links a:hover{ color:var(--paper); }
+  nav.links a::after{
+    content:''; position:absolute; left:0; right:100%; bottom:0; height:1px;
+    background:var(--ember-2); transition:right .3s ease;
+  }
+  nav.links a:hover::after{ right:0; }
+  .btn-line{
+    border:1px solid var(--line); padding:10px 22px; font-size:11px;
+    letter-spacing:0.14em; text-transform:uppercase; border-radius:2px;
+    transition:border-color .25s ease, background .25s ease;
+    white-space:nowrap;
+  }
+  .btn-line:hover{ border-color:var(--ember-2); background:rgba(232,121,46,0.08); }
+  .btn-solid{
+    background:linear-gradient(120deg,var(--ember),var(--ember-2));
+    color:var(--ink); padding:11px 24px; font-size:11px; font-weight:600;
+    letter-spacing:0.14em; text-transform:uppercase; border-radius:2px;
+    transition:filter .25s ease, transform .25s ease;
+    display:inline-block;
+  }
+  .btn-solid:hover{ filter:brightness(1.08); transform:translateY(-1px); }
+  .menu-btn{ display:none; background:none; border:0; color:var(--paper); cursor:pointer; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative; height:100svh; min-height:640px;
+    display:flex; align-items:flex-end; overflow:hidden;
+  }
+  .hero-media{ position:absolute; inset:0; }
+  .hero-media img{ transform:scale(1.08); will-change:transform; }
+  .hero-media::after{
+    content:''; position:absolute; inset:0;
+    background:
+      linear-gradient(180deg, rgba(10,10,9,0.35) 0%, rgba(10,10,9,0.15) 32%, rgba(10,10,9,0.55) 70%, rgba(10,10,9,0.96) 100%),
+      linear-gradient(90deg, rgba(10,10,9,0.55) 0%, rgba(10,10,9,0) 45%);
+  }
+  .hero-content{
+    position:relative; z-index:2; width:100%;
+    padding:0 clamp(20px,5vw,64px) clamp(64px,9vw,110px);
+  }
+  .hero-eyebrow{
+    display:flex; align-items:center; gap:14px; margin-bottom:22px;
+    opacity:0; animation:riseIn .9s .2s ease forwards;
+  }
+  .hero-eyebrow .dash{ width:34px; height:1px; background:var(--ember-2); }
+  h1.hero-title{
+    font-size:clamp(52px,10.5vw,168px);
+    color:var(--paper);
+    opacity:0; animation:riseIn 1s .35s ease forwards;
+  }
+  h1.hero-title em{ font-family:var(--ff-serif); font-style:italic; color:var(--ember-2); font-weight:400; }
+  .hero-sub{
+    max-width:480px; margin-top:26px; font-size:17px; line-height:1.6; color:var(--paper-dim);
+    font-family:var(--ff-serif); font-style:italic; font-size:22px; color:#d9d3c7;
+    opacity:0; animation:riseIn 1s .5s ease forwards;
+  }
+  .hero-ctas{ display:flex; gap:16px; margin-top:38px; flex-wrap:wrap;
+    opacity:0; animation:riseIn 1s .65s ease forwards; }
+
+  @keyframes riseIn{ from{opacity:0; transform:translateY(22px);} to{opacity:1; transform:translateY(0);} }
+
+  .scroll-cue{
+    position:absolute; right:clamp(20px,5vw,64px); bottom:40px; z-index:2;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    color:var(--paper-dim); font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+  }
+  .scroll-cue .line{ width:1px; height:56px; background:linear-gradient(var(--ember-2), transparent);
+    animation:scrollLine 1.8s ease-in-out infinite; }
+  @keyframes scrollLine{ 0%{transform:scaleY(0); transform-origin:top;} 50%{transform:scaleY(1); transform-origin:top;} 50.01%{transform-origin:bottom;} 100%{transform:scaleY(0); transform-origin:bottom;} }
+
+  /* ---------- marquee ---------- */
+  .marquee{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    overflow:hidden; white-space:nowrap; background:var(--ink-2);
+  }
+  .marquee-track{ display:inline-flex; animation:marquee 34s linear infinite; }
+  .marquee-track span{
+    font-family:var(--ff-display); font-weight:600; text-transform:uppercase;
+    font-size:clamp(24px,3.4vw,44px); padding:20px 34px; display:inline-flex; align-items:center; gap:34px;
+    color:transparent; -webkit-text-stroke:1px rgba(243,239,232,0.42);
+  }
+  .marquee-track span i{ color:var(--ember-2); font-style:normal; -webkit-text-stroke:0; font-size:14px; }
+  @keyframes marquee{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  /* ---------- section scaffolding ---------- */
+  section{ position:relative; }
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end; gap:30px;
+    padding:clamp(72px,10vw,120px) 0 clamp(36px,5vw,56px);
+    flex-wrap:wrap;
+  }
+  .section-head h2{ font-size:clamp(38px,5.6vw,78px); }
+  .section-head p{ max-width:340px; color:var(--paper-dim); font-size:14px; line-height:1.7; padding-bottom:8px; }
+
+  .reveal{ opacity:0; transform:translateY(36px); transition:opacity .9s cubic-bezier(.16,.8,.3,1), transform .9s cubic-bezier(.16,.8,.3,1); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- featured work — asymmetric grid ---------- */
+  .work-grid{
+    display:grid; grid-template-columns:repeat(6,1fr); gap:18px;
+    padding-bottom:clamp(60px,8vw,100px);
+  }
+  .work-card{
+    position:relative; overflow:hidden; border-radius:2px; cursor:pointer;
+    background:var(--ink-3);
+  }
+  .work-card .img-box{ position:absolute; inset:0; overflow:hidden; }
+  .work-card img{ transition:transform 1.1s cubic-bezier(.16,.8,.3,1), filter .6s ease; filter:saturate(0.92) contrast(1.02); }
+  .work-card:hover img{ transform:scale(1.07); }
+  .work-card::before{
+    content:''; position:absolute; inset:0; z-index:1;
+    background:linear-gradient(180deg, rgba(10,10,9,0) 40%, rgba(10,10,9,0.92) 100%);
+  }
+  .work-card .meta{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:26px; }
+  .work-card .cat{ font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--ember-2); margin-bottom:8px; display:block; }
+  .work-card .ttl{ font-family:var(--ff-display); font-size:26px; text-transform:uppercase; }
+  .work-card .loc{ font-family:var(--ff-serif); font-style:italic; color:var(--paper-dim); font-size:15px; margin-top:4px; }
+  .work-card .expand{
+    position:absolute; top:20px; right:20px; z-index:2; width:38px; height:38px; border-radius:50%;
+    border:1px solid rgba(243,239,232,0.4); display:flex; align-items:center; justify-content:center;
+    opacity:0; transform:translateY(-8px); transition:opacity .3s ease, transform .3s ease, border-color .3s ease;
+  }
+  .work-card:hover .expand{ opacity:1; transform:translateY(0); border-color:var(--ember-2); }
+
+  .work-card.c1{ grid-column:span 4; aspect-ratio:16/11; }
+  .work-card.c2{ grid-column:span 2; aspect-ratio:3/4; }
+  .work-card.c3{ grid-column:span 2; aspect-ratio:3/4; }
+  .work-card.c4{ grid-column:span 4; aspect-ratio:16/11; }
+  .work-card.c5{ grid-column:span 3; aspect-ratio:4/5; }
+  .work-card.c6{ grid-column:span 3; aspect-ratio:4/5; }
+
+  @media (max-width:860px){
+    .work-grid{ grid-template-columns:1fr; }
+    .work-card.c1,.work-card.c2,.work-card.c3,.work-card.c4,.work-card.c5,.work-card.c6{ grid-column:span 1; aspect-ratio:4/5; }
+  }
+
+  /* ---------- categories ---------- */
+  .cat-strip{
+    display:grid; grid-template-columns:repeat(6,1fr); gap:2px;
+    background:var(--line); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  }
+  .cat-tile{
+    position:relative; height:420px; overflow:hidden; background:var(--ink);
+  }
+  .cat-tile img{ transition:transform 1s cubic-bezier(.16,.8,.3,1), opacity .6s ease; opacity:0.55; filter:saturate(0.7); }
+  .cat-tile:hover img{ transform:scale(1.08); opacity:0.85; filter:saturate(1); }
+  .cat-tile::after{ content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(10,10,9,0.85), rgba(10,10,9,0.2) 55%); }
+  .cat-label{
+    position:absolute; left:0; right:0; bottom:26px; z-index:2; text-align:center;
+  }
+  .cat-label .num{ display:block; font-size:11px; letter-spacing:0.2em; color:var(--ember-2); margin-bottom:10px; }
+  .cat-label .name{
+    font-family:var(--ff-display); font-size:22px; text-transform:uppercase; letter-spacing:0.03em;
+    writing-mode:horizontal-tb;
+  }
+  @media (max-width:900px){
+    .cat-strip{ grid-template-columns:repeat(2,1fr); }
+    .cat-tile{ height:260px; }
+  }
+
+  /* ---------- about ---------- */
+  .about{ padding:clamp(90px,11vw,150px) 0; border-top:1px solid var(--line); }
+  .about-grid{ display:grid; grid-template-columns:0.85fr 1.15fr; gap:clamp(40px,6vw,90px); align-items:center; }
+  .about-portrait{ position:relative; aspect-ratio:4/5; overflow:hidden; border-radius:2px; }
+  .about-portrait::after{ content:''; position:absolute; inset:0; box-shadow:inset 0 -80px 100px -20px rgba(10,10,9,0.5); }
+  .about-portrait .frame{
+    position:absolute; inset:18px; border:1px solid rgba(243,239,232,0.35); z-index:2; pointer-events:none;
+  }
+  .about-tag{ position:absolute; bottom:26px; left:26px; z-index:3; }
+  .about-tag .who{ font-family:var(--ff-display); font-size:20px; text-transform:uppercase; }
+  .about-tag .role{ font-family:var(--ff-serif); font-style:italic; color:var(--ember-2); font-size:15px; }
+  .about h2{ font-size:clamp(34px,4.6vw,58px); margin-bottom:26px; }
+  .about p{ color:var(--paper-dim); font-size:16px; line-height:1.85; margin-bottom:18px; max-width:560px; }
+  .about-stats{ display:flex; gap:clamp(30px,5vw,60px); margin-top:44px; flex-wrap:wrap; }
+  .about-stats .stat b{ display:block; font-family:var(--ff-display); font-size:38px; color:var(--ember-2); }
+  .about-stats .stat span{ font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--paper-dim); }
+
+  @media (max-width:860px){ .about-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- services ---------- */
+  .services{ padding:clamp(70px,9vw,120px) 0; border-top:1px solid var(--line); }
+  .service-row{
+    display:grid; grid-template-columns:1.1fr 2fr 0.9fr; gap:24px; align-items:center;
+    padding:30px 0; border-bottom:1px solid var(--line);
+    transition:background .3s ease;
+  }
+  .service-row:hover{ background:rgba(232,121,46,0.04); }
+  .service-row h3{ font-size:clamp(24px,2.6vw,34px); text-transform:uppercase; }
+  .service-row p{ color:var(--paper-dim); font-size:14.5px; line-height:1.7; max-width:480px; }
+  .service-row .price{ text-align:right; font-family:var(--ff-serif); font-style:italic; font-size:20px; color:var(--ember-2); }
+  .service-row .price small{ display:block; font-family:var(--ff-body); font-style:normal; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--paper-dim); margin-top:4px; }
+  @media (max-width:760px){
+    .service-row{ grid-template-columns:1fr; gap:8px; }
+    .service-row .price{ text-align:left; }
+  }
+
+  /* ---------- contact ---------- */
+  .contact{ position:relative; padding:clamp(90px,12vw,160px) 0; overflow:hidden; border-top:1px solid var(--line); }
+  .contact-bg{ position:absolute; inset:0; z-index:0; }
+  .contact-bg img{ opacity:0.22; filter:saturate(0.4) contrast(1.1); }
+  .contact-bg::after{ content:''; position:absolute; inset:0; background:linear-gradient(180deg, var(--ink) 0%, rgba(10,10,9,0.75) 40%, var(--ink) 100%); }
+  .contact-inner{ position:relative; z-index:1; display:grid; grid-template-columns:1fr 1fr; gap:clamp(40px,6vw,90px); }
+  .contact h2{ font-size:clamp(40px,6vw,86px); }
+  .contact-info{ margin-top:30px; }
+  .contact-info a{ display:block; font-size:20px; margin-bottom:10px; font-family:var(--ff-serif); font-style:italic; color:var(--paper); border-bottom:1px solid transparent; transition:color .25s, border-color .25s; }
+  .contact-info a:hover{ color:var(--ember-2); border-color:var(--ember-2); }
+  .contact-meta{ margin-top:40px; color:var(--paper-dim); font-size:13px; line-height:2; }
+
+  .form{ display:flex; flex-direction:column; gap:18px; }
+  .field{ display:flex; flex-direction:column; gap:8px; }
+  .field label{ font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--paper-dim); }
+  .field input, .field select, .field textarea{
+    background:transparent; border:0; border-bottom:1px solid var(--line);
+    color:var(--paper); font-family:var(--ff-body); font-size:15px; padding:10px 2px;
+    transition:border-color .25s ease;
+  }
+  .field select option{ background:var(--ink-2); }
+  .field input:focus, .field select:focus, .field textarea:focus{ outline:none; border-color:var(--ember-2); }
+  .field textarea{ resize:vertical; min-height:70px; }
+  .form .btn-solid{ align-self:flex-start; margin-top:8px; cursor:pointer; border:none; font-family:inherit; }
+
+  /* ---------- footer ---------- */
+  footer{ border-top:1px solid var(--line); padding:44px 0; }
+  .foot-inner{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
+  .foot-links{ display:flex; gap:26px; }
+  .foot-links a{ font-size:12px; color:var(--paper-dim); letter-spacing:0.06em; transition:color .2s ease; }
+  .foot-links a:hover{ color:var(--paper); }
+  .foot-copy{ font-size:11px; color:var(--paper-dim); letter-spacing:0.04em; }
+
+  /* ---------- lightbox ---------- */
+  .lightbox{
+    position:fixed; inset:0; z-index:200; background:rgba(6,6,5,0.96);
+    display:flex; align-items:center; justify-content:center; padding:5vw;
+    opacity:0; pointer-events:none; transition:opacity .4s ease;
+  }
+  .lightbox.open{ opacity:1; pointer-events:auto; }
+  .lightbox-frame{ position:relative; max-width:1100px; width:100%; }
+  .lightbox-frame img{ width:100%; max-height:80vh; object-fit:cover; border-radius:2px; opacity:0; transform:scale(0.97); transition:opacity .5s ease, transform .5s ease; }
+  .lightbox.open .lightbox-frame img{ opacity:1; transform:scale(1); }
+  .lightbox-cap{ display:flex; justify-content:space-between; margin-top:18px; align-items:flex-end; }
+  .lightbox-cap .t{ font-family:var(--ff-display); font-size:24px; text-transform:uppercase; }
+  .lightbox-cap .l{ font-family:var(--ff-serif); font-style:italic; color:var(--paper-dim); }
+  .lightbox-close{
+    position:absolute; top:-52px; right:0; background:none; border:1px solid var(--line); color:var(--paper);
+    width:38px; height:38px; border-radius:50%; cursor:pointer; font-size:16px;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .lightbox-close:hover{ border-color:var(--ember-2); color:var(--ember-2); }
+
+  /* mobile nav */
+  .mobile-menu{
+    position:fixed; inset:0; z-index:150; background:var(--ink); display:flex; flex-direction:column;
+    justify-content:center; gap:26px; padding:0 32px; transform:translateY(-100%); transition:transform .5s cubic-bezier(.16,.8,.3,1);
+  }
+  .mobile-menu.open{ transform:translateY(0); }
+  .mobile-menu a{ font-family:var(--ff-display); font-size:36px; text-transform:uppercase; }
+  .mobile-menu .btn-solid{ align-self:flex-start; margin-top:10px; }
+  .mobile-close{ position:absolute; top:24px; right:24px; background:none; border:0; color:var(--paper); font-size:22px; cursor:pointer; }
+
+  @media (max-width:900px){
+    nav.links{ display:none; }
+    header .btn-line{ display:none; }
+    .menu-btn{ display:block; }
+  }
+</style>
+
+<!-- ============================================================
+     NAV
+     ============================================================ -->
+<header id="siteHeader">
+  <a href="#top" class="brand">SINEER<span>A</span></a>
+  <nav class="links">
+    <a href="#work">Work</a>
+    <a href="#categories">Portfolio</a>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div style="display:flex; gap:14px; align-items:center;">
+    <a href="#contact" class="btn-line" style="display:none" id="loginPlaceholder"></a>
+    <a href="#contact" class="btn-solid">Book a Shoot</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+      <svg width="26" height="18" viewBox="0 0 26 18" fill="none"><path d="M0 1H26M0 9H26M0 17H26" stroke="currentColor" stroke-width="1.4"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
+  <a href="#work">Work</a>
+  <a href="#categories">Portfolio</a>
+  <a href="#about">About</a>
+  <a href="#services">Services</a>
+  <a href="#contact">Contact</a>
+  <a href="#contact" class="btn-solid">Book a Shoot</a>
+</div>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" id="top">
+  <div class="hero-media" id="heroMedia">
+    <img id="heroImg" src="" alt="Cinematic wedding photograph on a coastal cliff at golden hour">
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span class="dash"></span><span class="eyebrow">Frames &amp; Photography</span></div>
+    <h1 class="hero-title">Stories,<br>Held in<br><em>Light</em></h1>
+    <p class="hero-sub">SINEERA is a cinematic photography studio for weddings, portraits and campaigns — every frame composed to feel remembered, not just recorded.</p>
+    <div class="hero-ctas">
+      <a href="#work" class="btn-solid">Explore Portfolio</a>
+      <a href="#contact" class="btn-line">Book a Shoot</a>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
+</section>
+
+<!-- ============================================================
+     MARQUEE
+     ============================================================ -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Weddings <i>●</i> Portraits <i>●</i> Events <i>●</i> Fashion <i>●</i> Travel <i>●</i> Commercial <i>●</i></span>
+    <span>Weddings <i>●</i> Portraits <i>●</i> Events <i>●</i> Fashion <i>●</i> Travel <i>●</i> Commercial <i>●</i></span>
+  </div>
+</div>
+
+<!-- ============================================================
+     FEATURED WORK
+     ============================================================ -->
+<section id="work" class="wrap">
+  <div class="section-head reveal">
+    <h2>Featured<br>Projects</h2>
+    <p>A curated set of recent frames — from cliffside vows to studio-lit editorials. Click any frame to view it full-screen.</p>
+  </div>
+  <div class="work-grid" id="workGrid"></div>
+</section>
+
+<!-- ============================================================
+     CATEGORIES
+     ============================================================ -->
+<section id="categories">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>The<br>Portfolio</h2>
+      <p>Six disciplines, one point of view — cinematic, unhurried, and built around real moments.</p>
+    </div>
+  </div>
+  <div class="cat-strip" id="catStrip"></div>
+</section>
+
+<!-- ============================================================
+     ABOUT
+     ============================================================ -->
+<section id="about" class="about">
+  <div class="wrap about-grid">
+    <div class="about-portrait reveal">
+      <img id="aboutImg" src="" alt="Portrait of the SINEERA lead photographer holding a camera">
+      <div class="frame"></div>
+      <div class="about-tag">
+        <div class="who">Reyansh Kade</div>
+        <div class="role">Founder &amp; Lead Photographer</div>
+      </div>
+    </div>
+    <div class="reveal">
+      <span class="eyebrow">About the Photographer</span>
+      <h2 style="margin-top:16px;">Fifteen Years<br>Behind the <span class="serif-italic">Frame</span></h2>
+      <p>I started SINEERA on a simple belief: a photograph should hold the feeling of a moment, not just its likeness. That means shooting for light before anything else, waiting for the unguarded second, and editing with restraint.</p>
+      <p>Since 2011 I've photographed weddings on three continents, shot campaigns for independent fashion labels, and built a small team that shares the same obsession with story over spectacle. Every project — big or small — gets the same patience.</p>
+      <div class="about-stats">
+        <div class="stat"><b>230+</b><span>Weddings Shot</span></div>
+        <div class="stat"><b>40+</b><span>Countries</span></div>
+        <div class="stat"><b>15</b><span>Years Behind the Lens</span></div>
+        <div class="stat"><b>4.9</b><span>Client Rating</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SERVICES
+     ============================================================ -->
+<section id="services" class="services">
+  <div class="wrap">
+    <div class="section-head reveal" style="padding-top:0;">
+      <h2>Services</h2>
+      <p>Every package is shaped around the story you're telling — these are starting points, not limits.</p>
+    </div>
+    <div class="reveal">
+      <div class="service-row">
+        <h3>Weddings</h3>
+        <p>Full-day coverage from first light to last dance, delivered as a cinematic, editorial-grade gallery.</p>
+        <div class="price">From £3,200<small>Full Day</small></div>
+      </div>
+      <div class="service-row">
+        <h3>Portraits</h3>
+        <p>Studio or on-location sessions for individuals, founders and families — natural direction, no stiff posing.</p>
+        <div class="price">From £480<small>Per Session</small></div>
+      </div>
+      <div class="service-row">
+        <h3>Events</h3>
+        <p>Discreet, fast-moving coverage for galas, launches and private celebrations.</p>
+        <div class="price">From £900<small>Per Event</small></div>
+      </div>
+      <div class="service-row">
+        <h3>Fashion</h3>
+        <p>Lookbooks, campaigns and editorial stories built with stylists, MUAs and set design in mind.</p>
+        <div class="price">From £1,600<small>Per Day</small></div>
+      </div>
+      <div class="service-row">
+        <h3>Travel</h3>
+        <p>Destination storytelling for brands and publications — landscapes, culture and quiet detail.</p>
+        <div class="price">On Request<small>Custom Scope</small></div>
+      </div>
+      <div class="service-row">
+        <h3>Commercial</h3>
+        <p>Product and brand imagery built for campaigns, catalogues and paid media.</p>
+        <div class="price">From £1,200<small>Per Day</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT
+     ============================================================ -->
+<section id="contact" class="contact">
+  <div class="contact-bg"><img id="contactImg" src="" alt="Dim cinematic backdrop of a camera lens"></div>
+  <div class="wrap contact-inner">
+    <div class="reveal">
+      <span class="eyebrow">Get In Touch</span>
+      <h2 style="margin-top:16px;">Let's Make<br>Something<br><span class="serif-italic">Unforgettable</span></h2>
+      <div class="contact-info">
+        <a href="mailto:studio@sineera.com">studio@sineera.com</a>
+        <a href="tel:+442071234567">+44 20 7123 4567</a>
+      </div>
+      <div class="contact-meta">
+        Studio 4, Clerkenwell Green<br>
+        London, EC1R 0DU<br><br>
+        Mon – Sat, 9am – 7pm GMT
+      </div>
+    </div>
+    <form class="form reveal" id="bookingForm">
+      <div class="field">
+        <label for="name">Name</label>
+        <input id="name" type="text" placeholder="Your full name" required>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="you@email.com" required>
+      </div>
+      <div class="field">
+        <label for="type">Shoot Type</label>
+        <select id="type">
+          <option>Weddings</option>
+          <option>Portraits</option>
+          <option>Events</option>
+          <option>Fashion</option>
+          <option>Travel</option>
+          <option>Commercial</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="date">Preferred Date</label>
+        <input id="date" type="text" placeholder="e.g. 12 June 2027">
+      </div>
+      <div class="field">
+        <label for="message">Tell us about the project</label>
+        <textarea id="message" placeholder="A few lines about what you have in mind..."></textarea>
+      </div>
+      <button type="submit" class="btn-solid">Send Enquiry</button>
+    </form>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer>
+  <div class="wrap foot-inner">
+    <a href="#top" class="brand" style="font-size:16px;">SINEER<span>A</span></a>
+    <div class="foot-links">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+      <a href="#">Instagram</a>
+    </div>
+    <div class="foot-copy">© 2026 SINEERA Frames &amp; Photography. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     LIGHTBOX
+     ============================================================ -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-frame">
+    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <img id="lightboxImg" src="" alt="">
+    <div class="lightbox-cap">
+      <div class="t" id="lightboxTitle"></div>
+      <div class="l" id="lightboxLoc"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const IMG = window.SINEERA_IMAGES;
+
+  // ---- populate hero / about / contact backdrop images ----
+  document.getElementById('heroImg').src = IMG.hero;
+  document.getElementById('aboutImg').src = IMG.photographerPortrait;
+  document.getElementById('contactImg').src = IMG.categories.commercial;
+
+  // ---- header scroll state ----
+  const header = document.getElementById('siteHeader');
+  const onScroll = () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // ---- hero parallax ----
+  const heroImg = document.getElementById('heroImg');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y < window.innerHeight){
+      heroImg.style.transform = 'translateY(' + (y*0.18) + 'px) scale(' + (1.08 + y*0.0002) + ')';
+    }
+  }, {passive:true});
+
+  // ---- mobile menu ----
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+  menuBtn.addEventListener('click', () => mobileMenu.classList.add('open'));
+  mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+  // ---- build featured work grid ----
+  const workGrid = document.getElementById('workGrid');
+  const classes = ['c1','c2','c3','c4','c5','c6'];
+  IMG.featured.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'work-card reveal ' + classes[i % classes.length];
+    card.innerHTML = `
+      <div class="img-box"><img src="${item.img}" alt="${item.title} — ${item.category} photography by SINEERA"></div>
+      <div class="expand">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 5V1H5M9 1H13V5M13 9V13H9M5 13H1V9" stroke="currentColor" stroke-width="1.2"/></svg>
+      </div>
+      <div class="meta">
+        <span class="cat">${item.category}</span>
+        <div class="ttl">${item.title}</div>
+        <div class="loc">${item.location}</div>
+      </div>
+    `;
+    card.addEventListener('click', () => openLightbox(item));
+    workGrid.appendChild(card);
+  });
+
+  // ---- build category strip ----
+  const catStrip = document.getElementById('catStrip');
+  const catOrder = [
+    ['01','Weddings','weddings'],
+    ['02','Portraits','portraits'],
+    ['03','Events','events'],
+    ['04','Fashion','fashion'],
+    ['05','Travel','travel'],
+    ['06','Commercial','commercial']
+  ];
+  catOrder.forEach(([num, name, key]) => {
+    const tile = document.createElement('a');
+    tile.href = '#contact';
+    tile.className = 'cat-tile reveal';
+    tile.innerHTML = `
+      <img src="${IMG.categories[key]}" alt="${name} photography sample by SINEERA">
+      <div class="cat-label"><span class="num">${num}</span><span class="name">${name}</span></div>
+    `;
+    catStrip.appendChild(tile);
+  });
+
+  // ---- lightbox ----
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxTitle = document.getElementById('lightboxTitle');
+  const lightboxLoc = document.getElementById('lightboxLoc');
+  function openLightbox(item){
+    lightboxImg.src = item.img;
+    lightboxImg.alt = item.title + ' full screen photograph';
+    lightboxTitle.textContent = item.title;
+    lightboxLoc.textContent = item.location;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+  // ---- scroll reveal ----
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.12, rootMargin:'0px 0px -60px 0px'});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // ---- booking form ----
+  const form = document.getElementById('bookingForm');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    const original = btn.textContent;
+    btn.textContent = 'Enquiry Sent';
+    btn.style.filter = 'brightness(0.9)';
+    setTimeout(() => { btn.textContent = original; btn.style.filter = ''; form.reset(); }, 2200);
+  });
+})();
+</script>
+
+</body>
+</html>
