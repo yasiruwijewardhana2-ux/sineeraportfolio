@@ -920,16 +920,22 @@
 
   var heroTimer = null;
   function startHeroTimer(){
-    if(reduceMotion || heroSlides.length < 2) return;
+    if(heroSlides.length < 2) return;
+    stopHeroTimer();
     heroTimer = setInterval(function(){
       goToHeroSlide((heroIndex + 1) % heroSlides.length);
     }, 5000);
   }
-  function resetHeroTimer(){
-    if(heroTimer){ clearInterval(heroTimer); }
-    startHeroTimer();
+  function stopHeroTimer(){
+    if(heroTimer){ clearInterval(heroTimer); heroTimer = null; }
   }
+  function resetHeroTimer(){ startHeroTimer(); }
   startHeroTimer();
+
+  /* Pause while the tab is hidden, resume when it's visible again */
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden){ stopHeroTimer(); } else { startHeroTimer(); }
+  });
 
   /* Frame counter + parallax on rAF */
   var fcFill = document.getElementById('fcFill');
