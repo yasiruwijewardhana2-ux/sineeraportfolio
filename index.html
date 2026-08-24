@@ -31,22 +31,22 @@
     },
     featured: [
       { title: "", category: "Engagements", location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462724/WhatsApp_Image_2026-08-23_at_9.56.44_AM_1.jpg" },
-      { title: "", category: "Portraits",   location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462712/WhatsApp_Image_2026-08-23_at_9.56.35_AM_1.jpg" },
-      { title: "", category: "Events",      location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462702/WhatsApp_Image_2026-08-23_at_9.56.22_AM_1.jpg" },
-      { title: "", category: "Fashion",     location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462736/WhatsApp_Image_2026-08-23_at_9.56.50_AM.jpg" },
-      { title: "", category: "Travel",      location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462670/WhatsApp_Image_2026-08-23_at_9.56.07_AM.jpg" },
-      { title: "", category: "Weddings",    location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787559832/COMING-SOON-10IN-ROUND-RIDER-RED.webp" }
+      { title: "", category: "Portraits",    location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462712/WhatsApp_Image_2026-08-23_at_9.56.35_AM_1.jpg" },
+      { title: "", category: "Events",       location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462702/WhatsApp_Image_2026-08-23_at_9.56.22_AM_1.jpg" },
+      { title: "", category: "Fashion",      location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462736/WhatsApp_Image_2026-08-23_at_9.56.50_AM.jpg" },
+      { title: "", category: "Travel",       location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462670/WhatsApp_Image_2026-08-23_at_9.56.07_AM.jpg" },
+      { title: "", category: "Weddings",     location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787559832/COMING-SOON-10IN-ROUND-RIDER-RED.webp" }
     ]
   };
 
-  /* Photography-vernacular metadata used across the site */
+  /* Frame identifiers metadata used across the site */
   window.SINEERA_META = {
-    engagements: { frame: "F01", lens: "50mm", settings: "f/1.8 · 1/250s" },
-    portraits:   { frame: "F02", lens: "85mm", settings: "f/1.4 · 1/200s" },
-    events:      { frame: "F03", lens: "35mm", settings: "f/2.0 · 1/160s" },
-    fashion:     { frame: "F04", lens: "70mm", settings: "f/2.8 · 1/500s" },
-    travel:      { frame: "F05", lens: "24mm", settings: "f/5.6 · 1/320s" },
-    weddings:    { frame: "F06", lens: "85mm", settings: "f/1.4 · 1/250s" }
+    engagements: { frame: "F01" },
+    portraits:   { frame: "F02" },
+    events:      { frame: "F03" },
+    fashion:     { frame: "F04" },
+    travel:      { frame: "F05" },
+    weddings:    { frame: "F06" }
   };
 </script>
 
@@ -258,7 +258,7 @@
 
   section{ position:relative; z-index:2; }
   .section-head{
-    display:flex; justify-space-between; align-items:flex-end; gap:30px;
+    display:flex; justify-content:space-between; align-items:flex-end; gap:30px;
     padding:clamp(72px,10vw,120px) 0 clamp(36px,5vw,56px);
     flex-wrap:wrap;
   }
@@ -295,10 +295,7 @@
   .work-card .ttl:empty{ display:none; }
   .work-card .loc{ font-family:var(--ff-serif); font-style:italic; color:var(--paper-dim); font-size:15px; margin-top:4px; }
   .work-card .loc:empty{ display:none; }
-  .work-card .exif{
-    font-family:var(--ff-mono); font-size:11px; color:var(--paper-dim); margin-top:10px;
-    letter-spacing:0.03em; opacity:0.85;
-  }
+  .work-card .exif{ display:none; }
   .work-card .expand{
     position:absolute; top:20px; right:20px; z-index:2; width:38px; height:38px; border-radius:50%;
     border:1px solid rgba(243,239,232,0.4); display:flex; align-items:center; justify-content:center;
@@ -343,7 +340,7 @@
     position:absolute; left:0; right:0; bottom:26px; z-index:2; text-align:center;
   }
   .cat-label .num{ display:flex; align-items:center; justify-content:center; gap:10px; font-family:var(--ff-mono); font-size:11px; letter-spacing:0.16em; color:var(--ember-2); margin-bottom:10px; }
-  .cat-label .num .lens{ color:var(--paper-dim); }
+  .cat-label .num .lens{ display:none; }
   .cat-label .name{
     font-family:var(--ff-display); font-size:22px; text-transform:uppercase; letter-spacing:0.03em;
   }
@@ -569,7 +566,7 @@
       <a href="#contact" class="btn-line">Book a Shoot</a>
       <div class="hero-exif">
         <span class="dot"></span>
-        <span>RAW / 35mm &amp; 85mm Prime</span>
+        <span>RAW Capture</span>
       </div>
     </div>
   </div>
@@ -596,61 +593,61 @@
   </div>
 </div>
 
-<section id="work" class="wrap reveal">
-  <div class="section-head">
+<section class="wrap" id="work">
+  <div class="section-head reveal">
     <div>
-      <span class="eyebrow">Selected Frames</span>
+      <span class="eyebrow" style="margin-bottom:12px;"><svg class="mark" style="width:11px;height:11px;"><use href="#sineera-mark"></use></svg> Selected Frames</span>
       <h2>Featured Work</h2>
     </div>
-    <p>A curated showcase of recent photographs spanning across intimate portraits, emotional stories, and timeless compositions.</p>
+    <p>A curated curation of recent commercial, editorial, and personal assignments captured across diverse environments.</p>
   </div>
-  <div class="work-grid" id="featuredGrid"></div>
+  <div class="work-grid" id="workGrid"></div>
 </section>
 
-<section id="categories" class="reveal">
-  <div class="wrap" style="padding-bottom: 32px;">
-    <div class="section-head">
+<section id="categories">
+  <div class="wrap" style="padding-top:80px; padding-bottom:40px;">
+    <div class="section-head reveal" style="padding-top:0;">
       <div>
-        <span class="eyebrow">Portfolio Index</span>
-        <h2>Categories</h2>
+        <span class="eyebrow" style="margin-bottom:12px;"><svg class="mark" style="width:11px;height:11px;"><use href="#sineera-mark"></use></svg> Categories</span>
+        <h2>Portfolio</h2>
       </div>
-      <p>Browse through distinct photography genres, each captured with specialized optics and dedicated aesthetic intention.</p>
+      <p>Explore specialized bodies of photographic work categorized by genre and narrative style.</p>
     </div>
   </div>
-  <div class="cat-strip" id="categoryStrip"></div>
+  <div class="cat-strip reveal" id="catStrip"></div>
 </section>
 
-<section id="about" class="about reveal">
+<section class="about" id="about">
   <div class="wrap">
     <div class="about-grid">
-      <div class="about-portrait">
-        <img id="aboutImg" src="" alt="Sineera Photographer">
-        <div class="bracket tl"></div>
-        <div class="bracket tr"></div>
-        <div class="bracket bl"></div>
-        <div class="bracket br"></div>
+      <div class="about-portrait reveal">
+        <span class="bracket tl"></span>
+        <span class="bracket tr"></span>
+        <span class="bracket bl"></span>
+        <span class="bracket br"></span>
+        <img id="photographerImg" src="" alt="Photographer">
         <div class="about-tag">
-          <div class="who">Sineera</div>
-          <div class="role">Visual Storyteller &amp; Photographer</div>
+          <div class="who">SINEERA</div>
+          <div class="role">Visual Artist &amp; Photographer</div>
         </div>
       </div>
-      <div>
-        <span class="eyebrow">Behind the Lens</span>
-        <h2>Capturing Unfiltered Emotion</h2>
-        <p>Photography is more than holding a camera; it is about observing light, human connection, and split-second moments that will never happen again in the exact same way.</p>
-        <p>From intimate wedding ceremonies and high-fashion portraiture to dynamic event coverage and travel landscapes, every frame is crafted with deliberate composition and artistic atmosphere.</p>
+      <div class="reveal">
+        <span class="eyebrow" style="margin-bottom:14px;"><svg class="mark" style="width:11px;height:11px;"><use href="#sineera-mark"></use></svg> The Vision</span>
+        <h2>Framing Truth Through Light &amp; Shadow</h2>
+        <p>Photography is more than an image; it is the preservation of transient moments suspended in time. With an uncompromising dedication to aesthetic depth, minimalism, and storytelling, SINEERA captures the essence of every subject.</p>
+        <p>Every frame is approached with rigorous attention to detail, balancing natural illumination with intentional composition to create timeless visual documents.</p>
         <div class="about-stats">
           <div class="stat">
-            <b>500+</b>
-            <span>Shoots Completed</span>
+            <b>6+</b>
+            <span>Years Active</span>
           </div>
           <div class="stat">
-            <b>6+</b>
-            <span>Years Experience</span>
+            <b>400+</b>
+            <span>Projects Delivered</span>
           </div>
           <div class="stat">
             <b>100%</b>
-            <span>Client Satisfaction</span>
+            <span>Dedication</span>
           </div>
         </div>
       </div>
@@ -658,70 +655,60 @@
   </div>
 </section>
 
-<section id="services" class="services reveal">
+<section class="services" id="services">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head reveal">
       <div>
-        <span class="eyebrow">What I Offer</span>
-        <h2>Services</h2>
+        <span class="eyebrow" style="margin-bottom:12px;"><svg class="mark" style="width:11px;height:11px;"><use href="#sineera-mark"></use></svg> Expertise</span>
+        <h2>Services &amp; Offerings</h2>
       </div>
-      <p>Tailored photography packages designed to preserve your special occasions and creative projects with exceptional quality.</p>
+      <p>Tailored photographic services designed to meet high-end commercial and personal requirements.</p>
     </div>
-    <div class="service-list">
+    <div class="reveal">
       <div class="service-row">
-        <div class="service-tag">01</div>
-        <h3>Engagements</h3>
-        <p>Intimate, story-driven pre-wedding and engagement sessions capturing genuine romance in natural environments.</p>
+        <div class="service-tag">SRV-01</div>
+        <h3>Wedding &amp; Engagements</h3>
+        <p>Intimate documentation of sacred commitments, preserving authentic emotions and timeless elegance across your celebration.</p>
       </div>
       <div class="service-row">
-        <div class="service-tag">02</div>
-        <h3>Portraits</h3>
-        <p>High-end personal, editorial, and creative portraiture focused on expressions, lighting, and personality.</p>
+        <div class="service-tag">SRV-02</div>
+        <h3>Portraiture &amp; Editorial</h3>
+        <p>Striking personal and fashion portraits that reveal character, personality, and distinctive personal style.</p>
       </div>
       <div class="service-row">
-        <div class="service-tag">03</div>
-        <h3>Events</h3>
-        <p>Comprehensive coverage for celebrations, cultural gatherings, and corporate functions with documentary style.</p>
+        <div class="service-tag">SRV-03</div>
+        <h3>Events &amp; Commercial</h3>
+        <p>Comprehensive visual coverage for corporate functions, brand launches, and high-profile private events.</p>
       </div>
       <div class="service-row">
-        <div class="service-tag">04</div>
-        <h3>Fashion</h3>
-        <p>Dynamic lookbooks, brand campaigns, and model portfolios crafted with modern editorial aesthetics.</p>
-      </div>
-      <div class="service-row">
-        <div class="service-tag">05</div>
-        <h3>Travel</h3>
-        <p>Scenic landscapes, cultural docu-series, and destination imagery captured across diverse geographic locations.</p>
-      </div>
-      <div class="service-row">
-        <div class="service-tag">06</div>
-        <h3>Weddings</h3>
-        <p>Comprehensive wedding day coverage capturing timeless rituals, emotional vows, and joyful celebrations with elegance.</p>
+        <div class="service-tag">SRV-04</div>
+        <h3>Travel &amp; Landscape</h3>
+        <p>Evocative scenery and architectural studies captured through journeys across diverse geographies and cultures.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="contact" class="contact reveal">
+<section class="contact" id="contact">
   <div class="contact-bg">
-    <img src="https://res.cloudinary.com/xkkm3asr/image/upload/v1787462670/WhatsApp_Image_2026-08-23_at_9.56.10_AM_1.jpg" alt="Contact Background">
+    <img id="contactBgImg" src="" alt="">
   </div>
   <div class="wrap">
     <div class="contact-inner">
-      <div>
-        <span class="eyebrow">Get in Touch</span>
-        <h2>Let’s Frame Your Story</h2>
+      <div class="reveal">
+        <span class="eyebrow" style="margin-bottom:14px;"><svg class="mark" style="width:11px;height:11px;"><use href="#sineera-mark"></use></svg> Get In Touch</span>
+        <h2>Let's Create Together</h2>
         <div class="contact-info">
-          <a href="mailto:sineerainfo@gmail.com">sineerainfo@gmail.com</a>
-          <a href="tel:+94770000000">+94 77 000 0000</a>
+          <a href="mailto:hello@sineera.com">hello@sineera.com</a>
+          <a href="tel:+94700000000">+94 70 000 0000</a>
         </div>
         <div class="contact-meta">
-          <p>BASED IN SRI LANKA</p>
-          <p>AVAILABLE WORLDWIDE FOR DESTINATION SHOOTS</p>
+          <span>Based in Sri Lanka / Available Worldwide</span><br>
+          <span>Response time within 24 hours</span>
         </div>
       </div>
-      <div>
-        <form class="form" onsubmit="event.preventDefault(); alert('Thank you! Your inquiry has been sent.');">
+      <div class="reveal">
+        <form class="form" id="contactForm" onsubmit="event.preventDefault(); alert('Thank you. Your message has been sent.');">
           <div class="field">
             <label for="name">Your Name</label>
             <input type="text" id="name" required placeholder="John Doe">
@@ -731,22 +718,19 @@
             <input type="email" id="email" required placeholder="john@example.com">
           </div>
           <div class="field">
-            <label for="category">Photography Category</label>
-            <select id="category" name="category" required>
-              <option value="" disabled selected>Select a category</option>
-              <option value="engagements">Engagements</option>
-              <option value="portraits">Portraits</option>
-              <option value="events">Events</option>
-              <option value="fashion">Fashion</option>
-              <option value="travel">Travel</option>
-              <option value="weddings">Weddings</option>
+            <label for="service">Service Required</label>
+            <select id="service">
+              <option>Wedding &amp; Engagements</option>
+              <option>Portraiture &amp; Editorial</option>
+              <option>Events &amp; Commercial</option>
+              <option>Travel &amp; Landscape</option>
             </select>
           </div>
           <div class="field">
-            <label for="message">Project / Shoot Details</label>
-            <textarea id="message" rows="4" placeholder="Tell me about your date, location, and vision..."></textarea>
+            <label for="message">Project Details</label>
+            <textarea id="message" required placeholder="Tell us about your vision..."></textarea>
           </div>
-          <button type="submit" class="btn-solid">Submit Booking Inquiry</button>
+          <button type="submit" class="btn-solid">Send Message</button>
         </form>
       </div>
     </div>
@@ -754,230 +738,229 @@
 </section>
 
 <footer>
-  <div class="wrap foot-inner">
-    <div class="foot-brand">
-      <svg class="mark"><use href="#sineera-mark"></use></svg>
-      <span class="word">Sineera</span>
-    </div>
-    <div class="foot-links">
-      <a href="#work">Work</a>
-      <a href="#categories">Portfolio</a>
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
-    </div>
-    <div class="foot-copy">
-      &copy; 2026 SINEERA. All rights reserved.
+  <div class="wrap">
+    <div class="foot-inner">
+      <div class="foot-brand">
+        <svg class="mark"><use href="#sineera-mark"></use></svg>
+        <span class="word">Sineera</span>
+      </div>
+      <div class="foot-links">
+        <a href="#work">Work</a>
+        <a href="#categories">Portfolio</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="foot-copy">
+        &copy; 2026 SINEERA. All Rights Reserved.
+      </div>
     </div>
   </div>
 </footer>
 
-<div class="lightbox" id="lightbox" aria-hidden="true">
+<!-- Lightbox Modal -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog">
   <div class="lightbox-frame">
     <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">✕</button>
-    <img id="lightboxImg" src="" alt="Expanded View">
+    <img id="lightboxImg" src="" alt="">
     <div class="lightbox-cap">
-      <div class="t" id="lightboxTitle"></div>
-      <div class="l" id="lightboxLoc"></div>
+      <div>
+        <div class="t" id="lightboxTitle"></div>
+        <div class="l" id="lightboxLoc"></div>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="cat-gallery" id="catGallery" aria-hidden="true">
+<!-- Category Gallery Modal -->
+<div class="cat-gallery" id="catGallery" aria-hidden="true" role="dialog">
   <button class="cat-gallery-close" id="catGalleryClose" aria-label="Close gallery">✕</button>
   <div class="cat-gallery-inner">
     <div class="cat-gallery-head">
-      <span class="num" id="catGalleryNum">FRAME INDEX</span>
-      <h3 id="catGalleryTitle">Category</h3>
-      <span class="count" id="catGalleryCount">Collection</span>
+      <span class="num" id="catGalleryNum"></span>
+      <h3 id="catGalleryTitle"></h3>
+      <span class="count" id="catGalleryCount"></span>
     </div>
     <div class="cat-gallery-grid" id="catGalleryGrid"></div>
   </div>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const shutter = document.getElementById('shutter');
-    setTimeout(() => {
-      shutter?.classList.add('hide');
-    }, 1200);
+  document.addEventListener("DOMContentLoaded", () => {
+    // Populate images from config
+    const cfg = window.SINEERA_IMAGES;
+    const meta = window.SINEERA_META;
 
-    const header = document.getElementById('siteHeader');
-    window.addEventListener('scroll', () => {
+    document.getElementById("heroImg").src = cfg.hero.desktop;
+    document.getElementById("photographerImg").src = cfg.photographerPortrait;
+    document.getElementById("contactBgImg").src = cfg.categories.travel;
+
+    // Render Featured Work
+    const workGrid = document.getElementById("workGrid");
+    const classNames = ["c1", "c2", "c3", "c4", "c5", "c6"];
+    cfg.featured.forEach((item, index) => {
+      const card = document.createElement("div");
+      card.className = `work-card reveal ${classNames[index % classNames.length]}`;
+      card.innerHTML = `
+        <div class="img-box"><img src="${item.img}" alt="${item.category}" loading="lazy"></div>
+        <div class="frame-tag">${String(index + 1).padStart(2, '0')}</div>
+        <div class="expand">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1V9" stroke="currentColor" stroke-width="1.4"/></svg>
+        </div>
+        <div class="meta">
+          <span class="cat">${item.category}</span>
+          <div class="ttl">${item.title}</div>
+          <div class="loc">${item.location}</div>
+        </div>
+      `;
+      card.addEventListener("click", () => {
+        openLightbox(item.img, item.title, item.location);
+      });
+      workGrid.appendChild(card);
+    });
+
+    // Render Categories Strip
+    const catStrip = document.getElementById("catStrip");
+    const catKeys = Object.keys(cfg.categories);
+    const catNames = {
+      engagements: "Engagements",
+      portraits: "Portraits",
+      events: "Events",
+      fashion: "Fashion",
+      travel: "Travel",
+      weddings: "Weddings"
+    };
+
+    catKeys.forEach((key) => {
+      const imgUrl = cfg.categories[key];
+      const m = meta[key] || { frame: "F01" };
+      const tile = document.createElement("button");
+      tile.className = "cat-tile reveal";
+      tile.innerHTML = `
+        <span class="bracket tl"></span>
+        <span class="bracket tr"></span>
+        <span class="bracket bl"></span>
+        <span class="bracket br"></span>
+        <img src="${imgUrl}" alt="${catNames[key]}" loading="lazy">
+        <div class="cat-label">
+          <div class="num"><span>${m.frame}</span></div>
+          <div class="name">${catNames[key]}</div>
+          <span class="count">View Collection</span>
+        </div>
+      `;
+      tile.addEventListener("click", () => {
+        openCatGallery(key, catNames[key], m.frame, imgUrl);
+      });
+      catStrip.appendChild(tile);
+    });
+
+    // Header scroll effect
+    const header = document.getElementById("siteHeader");
+    window.addEventListener("scroll", () => {
       if (window.scrollY > 40) {
-        header?.classList.add('scrolled');
+        header.classList.add("scrolled");
       } else {
-        header?.classList.remove('scrolled');
+        header.classList.remove("scrolled");
       }
     });
 
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileClose = document.getElementById('mobileClose');
-    const mobileMenu = document.getElementById('mobileMenu');
-    menuBtn?.addEventListener('click', () => mobileMenu?.classList.add('open'));
-    mobileClose?.addEventListener('click', () => mobileMenu?.classList.remove('open'));
-    mobileMenu?.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    // Shutter loader
+    setTimeout(() => {
+      document.getElementById("shutter").classList.add("hide");
+    }, 500);
+
+    // Mobile Menu
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const mobileClose = document.getElementById("mobileClose");
+
+    menuBtn.addEventListener("click", () => mobileMenu.classList.add("open"));
+    mobileClose.addEventListener("click", () => mobileMenu.classList.remove("open"));
+    mobileMenu.querySelectorAll("a").forEach(a => {
+      a.addEventListener("click", () => mobileMenu.classList.remove("open"));
     });
 
-    const heroImg = document.getElementById('heroImg');
-    if (heroImg && window.SINEERA_IMAGES?.hero) {
-      heroImg.src = window.SINEERA_IMAGES.hero.desktop;
-    }
-
-    const aboutImg = document.getElementById('aboutImg');
-    if (aboutImg && window.SINEERA_IMAGES?.photographerPortrait) {
-      aboutImg.src = window.SINEERA_IMAGES.photographerPortrait;
-    }
-
-    const featuredGrid = document.getElementById('featuredGrid');
-    const featuredData = window.SINEERA_IMAGES?.featured || [];
-    const classMap = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6'];
-
-    if (featuredGrid && featuredData.length) {
-      featuredGrid.innerHTML = featuredData.map((item, index) => {
-        const catKey = item.category.toLowerCase();
-        const meta = window.SINEERA_META[catKey] || { frame: `F0${index + 1}`, lens: '50mm', settings: 'f/2.0' };
-        const cardClass = classMap[index % classMap.length];
-        return `
-          <div class="work-card ${cardClass}" data-img="${item.img}" data-cat="${item.category}">
-            <div class="img-box">
-              <img src="${item.img}" alt="${item.category}">
-            </div>
-            <div class="frame-tag">${meta.frame}</div>
-            <div class="expand">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor"><path d="M1 13L13 1M13 1H5M13 1V9" stroke-width="1.5"/></svg>
-            </div>
-            <div class="meta">
-              <span class="cat">${item.category}</span>
-              <div class="exif">${meta.lens} · ${meta.settings}</div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    const catStrip = document.getElementById('categoryStrip');
-    const catImages = window.SINEERA_IMAGES?.categories || {};
-    const catList = [
-      { key: 'engagements', name: 'Engagements' },
-      { key: 'portraits',   name: 'Portraits' },
-      { key: 'events',      name: 'Events' },
-      { key: 'fashion',     name: 'Fashion' },
-      { key: 'travel',      name: 'Travel' },
-      { key: 'weddings',    name: 'Weddings' }
-    ];
-
-    if (catStrip) {
-      catStrip.innerHTML = catList.map(cat => {
-        const meta = window.SINEERA_META[cat.key] || { frame: 'F01', lens: '50mm' };
-        const imgUrl = catImages[cat.key] || '';
-        return `
-          <button class="cat-tile" data-catkey="${cat.key}" data-catname="${cat.name}">
-            <img src="${imgUrl}" alt="${cat.name}">
-            <div class="bracket tl"></div>
-            <div class="bracket tr"></div>
-            <div class="bracket bl"></div>
-            <div class="bracket br"></div>
-            <div class="cat-label">
-              <div class="num">
-                <span>${meta.frame}</span>
-                <span class="lens">${meta.lens}</span>
-              </div>
-              <div class="name">${cat.name}</div>
-              <span class="count">View Collection</span>
-            </div>
-          </button>
-        `;
-      }).join('');
-    }
-
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightboxImg');
-    const lightboxClose = document.getElementById('lightboxClose');
-
-    featuredGrid?.addEventListener('click', (e) => {
-      const card = e.target.closest('.work-card');
-      if (card) {
-        const imgUrl = card.dataset.img;
-        if (imgUrl && lightboxImg && lightbox) {
-          lightboxImg.src = imgUrl;
-          lightbox.classList.add('open');
-          lightbox.setAttribute('aria-hidden', 'false');
-        }
-      }
-    });
-
-    lightboxClose?.addEventListener('click', () => {
-      lightbox?.classList.remove('open');
-      lightbox?.setAttribute('aria-hidden', 'true');
-    });
-
-    lightbox?.addEventListener('click', (e) => {
-      if (e.target === lightbox) {
-        lightbox.classList.remove('open');
-        lightbox.setAttribute('aria-hidden', 'true');
-      }
-    });
-
-    const catGallery = document.getElementById('catGallery');
-    const catGalleryClose = document.getElementById('catGalleryClose');
-    const catGalleryTitle = document.getElementById('catGalleryTitle');
-    const catGalleryNum = document.getElementById('catGalleryNum');
-    const catGalleryCount = document.getElementById('catGalleryCount');
-    const catGalleryGrid = document.getElementById('catGalleryGrid');
-
-    catStrip?.addEventListener('click', (e) => {
-      const tile = e.target.closest('.cat-tile');
-      if (tile) {
-        const catKey = tile.dataset.catkey;
-        const catName = tile.dataset.catname;
-        const meta = window.SINEERA_META[catKey] || {};
-        const mainImg = catImages[catKey];
-
-        if (catGalleryTitle) catGalleryTitle.textContent = catName;
-        if (catGalleryNum) catGalleryNum.textContent = `${meta.frame || 'F00'} / ${meta.lens || ''}`;
-        if (catGalleryCount) catGalleryCount.textContent = `Selected ${catName} Portfolio`;
-
-        if (catGalleryGrid) {
-          const matchingFeatured = (featuredData || []).filter(item => item.category.toLowerCase() === catKey).map(item => item.img);
-          const allImages = Array.from(new Set([mainImg, ...matchingFeatured])).filter(Boolean);
-
-          catGalleryGrid.innerHTML = allImages.map(img => `
-            <div class="g-item">
-              <img src="${img}" alt="${catName}">
-            </div>
-          `).join('');
-        }
-
-        catGallery?.classList.add('open');
-        catGallery?.setAttribute('aria-hidden', 'false');
-      }
-    });
-
-    catGalleryClose?.addEventListener('click', () => {
-      catGallery?.classList.remove('open');
-      catGallery?.setAttribute('aria-hidden', 'true');
-    });
-
-    catGallery?.addEventListener('click', (e) => {
-      if (e.target === catGallery) {
-        catGallery.classList.remove('open');
-        catGallery.setAttribute('aria-hidden', 'true');
-      }
-    });
-
-    const reveals = document.querySelectorAll('.reveal');
-    const revealOnScroll = () => {
-      reveals.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.88) {
-          el.classList.add('in');
+    // Reveal on scroll observer
+    const reveals = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          observer.unobserve(entry.target);
         }
       });
-    };
-    window.addEventListener('scroll', revealOnScroll);
-    revealOnScroll();
+    }, { threshold: 0.15 });
+    reveals.forEach(r => observer.observe(r));
+
+    // Lightbox functionality
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxTitle = document.getElementById("lightboxTitle");
+    const lightboxLoc = document.getElementById("lightboxLoc");
+    const lightboxClose = document.getElementById("lightboxClose");
+
+    function openLightbox(imgSrc, title, loc) {
+      lightboxImg.src = imgSrc;
+      lightboxTitle.textContent = title || "";
+      lightboxLoc.textContent = loc || "";
+      lightbox.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightboxFunc() {
+      lightbox.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    lightboxClose.addEventListener("click", closeLightboxFunc);
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightboxFunc();
+    });
+
+    // Category Gallery Modal functionality
+    const catGallery = document.getElementById("catGallery");
+    const catGalleryClose = document.getElementById("catGalleryClose");
+    const catGalleryNum = document.getElementById("catGalleryNum");
+    const catGalleryTitle = document.getElementById("catGalleryTitle");
+    const catGalleryCount = document.getElementById("catGalleryCount");
+    const catGalleryGrid = document.getElementById("catGalleryGrid");
+
+    function openCatGallery(key, name, frame, mainImg) {
+      catGalleryNum.textContent = frame;
+      catGalleryTitle.textContent = name;
+      catGalleryCount.textContent = "Curated Collection";
+      catGalleryGrid.innerHTML = `
+        <div class="g-item"><img src="${mainImg}" alt="${name}"></div>
+        <div class="g-item"><img src="${cfg.categories[key] || mainImg}" alt="${name}"></div>
+        <div class="g-item"><img src="${cfg.hero.desktop}" alt="${name}"></div>
+      `;
+      catGalleryGrid.querySelectorAll(".g-item").forEach(item => {
+        const im = item.querySelector("img");
+        item.addEventListener("click", () => {
+          openLightbox(im.src, name, frame);
+        });
+      });
+      catGallery.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeCatGalleryFunc() {
+      catGallery.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    catGalleryClose.addEventListener("click", closeCatGalleryFunc);
+    catGallery.addEventListener("click", (e) => {
+      if (e.target === catGallery) closeCatGalleryFunc();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeLightboxFunc();
+        closeCatGalleryFunc();
+        mobileMenu.classList.remove("open");
+      }
+    });
   });
 </script>
 </body>
