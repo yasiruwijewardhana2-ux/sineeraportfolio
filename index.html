@@ -36,7 +36,35 @@
       { title: "", category: "Fashion",      location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462736/WhatsApp_Image_2026-08-23_at_9.56.50_AM.jpg" },
       { title: "", category: "Travel",       location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462670/WhatsApp_Image_2026-08-23_at_9.56.07_AM.jpg" },
       { title: "", category: "Weddings",     location: "", img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787560563/ChatGPT_Image_Aug_24_2026_02_05_51_PM.png" }
-    ]
+    ],
+    /* Gallery — every URL appears in exactly one category, never duplicated
+       within or across categories. Where only one unique frame exists for
+       a category, only one is listed rather than padding with duplicates. */
+    gallery: {
+      Engagements: [
+        { img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462778/WhatsApp_Image_2026-08-23_at_9.57.32_AM_1.jpg", title: "Engagement Session" },
+        { img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462724/WhatsApp_Image_2026-08-23_at_9.56.44_AM_1.jpg", title: "Golden Hour Engagement" }
+      ],
+      Weddings: [
+        { img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787560563/ChatGPT_Image_Aug_24_2026_02_05_51_PM.png", title: "Wedding Day" }
+      ],
+      Portraits: [
+        { img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462736/WhatsApp_Image_2026-08-23_at_9.56.51_AM_1.jpg", title: "Studio Portrait" },
+        { img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462712/WhatsApp_Image_2026-08-23_at_9.56.35_AM_1.jpg", title: "Editorial Portrait" }
+      ],
+      Events: [
+        { img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462702/WhatsApp_Image_2026-08-23_at_9.56.21_AM.jpg", title: "Live Event" },
+        { img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462702/WhatsApp_Image_2026-08-23_at_9.56.22_AM_1.jpg", title: "Event Coverage" }
+      ],
+      Fashion: [
+        { img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462745/WhatsApp_Image_2026-08-23_at_9.56.55_AM.jpg", title: "Fashion Editorial" },
+        { img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462736/WhatsApp_Image_2026-08-23_at_9.56.50_AM.jpg", title: "Fashion Story" }
+      ],
+      Travel: [
+        { img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462671/WhatsApp_Image_2026-08-23_at_9.56.14_AM.jpg", title: "Travel Frame" },
+        { img: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462670/WhatsApp_Image_2026-08-23_at_9.56.07_AM.jpg", title: "On the Road" }
+      ]
+    }
   };
 
   /* Frame identifiers metadata used across the site */
@@ -393,6 +421,57 @@
     .cat-tile{ height:260px; }
   }
 
+  /* Premium Gallery — filterable cinematic masonry */
+  .gallery{ padding:clamp(70px,9vw,110px) 0 clamp(90px,11vw,140px); border-top:1px solid var(--line); }
+  .gallery-filters{
+    display:flex; flex-wrap:wrap; gap:10px; margin-bottom:clamp(30px,4.5vw,48px);
+  }
+  .gallery-filter{
+    background:transparent; cursor:pointer; font-family:var(--ff-mono);
+    font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--paper-dim);
+    border:1px solid var(--line); border-radius:20px; padding:10px 20px;
+    transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .gallery-filter:hover{ color:var(--paper); border-color:rgba(243,239,232,0.35); }
+  .gallery-filter.active{
+    color:var(--ink); background:linear-gradient(135deg, var(--ember) 0%, var(--ember-2) 100%);
+    border-color:transparent; box-shadow:0 4px 15px -4px rgba(217,102,31,0.5);
+  }
+  .gallery-grid{
+    columns:4 260px; column-gap:16px;
+  }
+  .gallery-item{
+    position:relative; overflow:hidden; border-radius:2px; cursor:pointer;
+    break-inside:avoid; margin-bottom:16px; background:var(--ink-3);
+    opacity:0; transform:translateY(18px); animation:galleryIn .6s cubic-bezier(.16,.8,.3,1) forwards;
+  }
+  @keyframes galleryIn{ to{ opacity:1; transform:translateY(0); } }
+  .gallery-item img{ transition:transform 1s cubic-bezier(.16,.8,.3,1); }
+  .gallery-item:hover img{ transform:scale(1.08); }
+  .gallery-item::before{
+    content:''; position:absolute; inset:0; z-index:1;
+    background:linear-gradient(180deg, rgba(10,10,9,0) 50%, rgba(10,10,9,0.9) 100%);
+    opacity:0; transition:opacity .35s ease;
+  }
+  .gallery-item:hover::before{ opacity:1; }
+  .gallery-item .g-meta{
+    position:absolute; left:0; right:0; bottom:0; z-index:2; padding:18px 20px;
+    opacity:0; transform:translateY(10px); transition:opacity .35s ease, transform .35s ease;
+  }
+  .gallery-item:hover .g-meta{ opacity:1; transform:translateY(0); }
+  .gallery-item .g-cat{ font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--ember-2); display:block; margin-bottom:4px; }
+  .gallery-item .g-ttl{ font-family:var(--ff-display); font-size:19px; text-transform:uppercase; }
+  .gallery-item .g-expand{
+    position:absolute; top:14px; right:14px; z-index:2; width:34px; height:34px; border-radius:50%;
+    border:1px solid rgba(243,239,232,0.4); display:flex; align-items:center; justify-content:center;
+    opacity:0; transform:translateY(-8px); transition:opacity .3s ease, transform .3s ease, border-color .3s ease;
+    background:rgba(10,10,9,0.35); backdrop-filter:blur(6px);
+  }
+  .gallery-item:hover .g-expand{ opacity:1; transform:translateY(0); border-color:var(--ember-2); }
+  .gallery-empty{ color:var(--paper-dim); font-family:var(--ff-serif); font-style:italic; font-size:17px; padding:20px 0; }
+  @media (max-width:900px){ .gallery-grid{ columns:2 200px; } }
+  @media (max-width:560px){ .gallery-grid{ columns:1; } }
+
   .about{ padding:clamp(90px,11vw,150px) 0; border-top:1px solid var(--line); }
   .about-grid{ display:grid; grid-template-columns:0.85fr 1.15fr; gap:clamp(40px,6vw,90px); align-items:center; }
   .about-portrait{ position:relative; aspect-ratio:4/5; overflow:hidden; border-radius:2px; }
@@ -591,6 +670,7 @@
   <nav class="links">
     <a href="#work">Work</a>
     <a href="#categories">Portfolio</a>
+    <a href="#gallery">Gallery</a>
     <a href="#about">About</a>
     <a href="#services">Services</a>
     <a href="#contact">Contact</a>
@@ -607,6 +687,7 @@
   <button class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
   <a href="#work">Work</a>
   <a href="#categories">Portfolio</a>
+  <a href="#gallery">Gallery</a>
   <a href="#about">About</a>
   <a href="#services">Services</a>
   <a href="#contact">Contact</a>
@@ -681,6 +762,18 @@
     </div>
   </div>
   <div class="cat-strip reveal" id="catStrip"></div>
+</section>
+
+<section class="wrap gallery" id="gallery">
+  <div class="section-head reveal">
+    <div>
+      <span class="eyebrow" style="margin-bottom:12px;"><svg class="mark" style="width:11px;height:11px;"><use href="#sineera-mark"></use></svg> Curated Frames</span>
+      <h2>Gallery</h2>
+    </div>
+    <p>Browse the archive by genre — every frame filtered into its own dedicated collection.</p>
+  </div>
+  <div class="gallery-filters reveal" id="galleryFilters"></div>
+  <div class="gallery-grid" id="galleryGrid"></div>
 </section>
 
 <section class="about" id="about">
@@ -812,6 +905,7 @@
       <div class="foot-links">
         <a href="#work">Work</a>
         <a href="#categories">Portfolio</a>
+        <a href="#gallery">Gallery</a>
         <a href="#about">About</a>
         <a href="#services">Services</a>
         <a href="#contact">Contact</a>
@@ -918,6 +1012,69 @@
       });
       catStrip.appendChild(tile);
     });
+
+    // Render Gallery (filterable, no duplicate images within or across categories)
+    const galleryFilters = document.getElementById("galleryFilters");
+    const galleryGrid = document.getElementById("galleryGrid");
+    const galleryData = cfg.gallery || {};
+    const galleryCats = Object.keys(galleryData);
+
+    function renderGallery(activeCat) {
+      galleryGrid.innerHTML = "";
+      const cats = activeCat === "All" ? galleryCats : [activeCat];
+      let count = 0;
+      cats.forEach((cat) => {
+        (galleryData[cat] || []).forEach((item, i) => {
+          count++;
+          const el = document.createElement("div");
+          el.className = "gallery-item";
+          el.style.animationDelay = `${Math.min(i, 6) * 0.06}s`;
+          el.innerHTML = `
+            <img src="${item.img}" alt="${item.title || cat}" loading="lazy">
+            <div class="g-expand">
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1V9" stroke="currentColor" stroke-width="1.4"/></svg>
+            </div>
+            <div class="g-meta">
+              <span class="g-cat">${cat}</span>
+              <div class="g-ttl">${item.title || ""}</div>
+            </div>
+          `;
+          el.addEventListener("click", () => openLightbox(item.img, item.title || "", cat));
+          galleryGrid.appendChild(el);
+        });
+      });
+      if (count === 0) {
+        galleryGrid.innerHTML = `<div class="gallery-empty">No frames available in this collection yet.</div>`;
+      }
+    }
+
+    function renderGalleryFilters() {
+      galleryFilters.innerHTML = "";
+      const allBtn = document.createElement("button");
+      allBtn.className = "gallery-filter active";
+      allBtn.textContent = "All";
+      allBtn.addEventListener("click", () => setActiveFilter(allBtn, "All"));
+      galleryFilters.appendChild(allBtn);
+
+      galleryCats.forEach((cat) => {
+        const btn = document.createElement("button");
+        btn.className = "gallery-filter";
+        btn.textContent = cat;
+        btn.addEventListener("click", () => setActiveFilter(btn, cat));
+        galleryFilters.appendChild(btn);
+      });
+    }
+
+    function setActiveFilter(btn, cat) {
+      galleryFilters.querySelectorAll(".gallery-filter").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderGallery(cat);
+    }
+
+    if (galleryCats.length) {
+      renderGalleryFilters();
+      renderGallery("All");
+    }
 
     // Header scroll effect
     const header = document.getElementById("siteHeader");
