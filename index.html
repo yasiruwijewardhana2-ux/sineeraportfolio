@@ -995,7 +995,7 @@
     <h1 class="hero-title">Capturing <em>Moments</em><br>That Tell Stories</h1>
     <p class="hero-sub">Crafting visual narratives across engagements, portraits, events, fashion, travel, and weddings.</p>
     <div class="hero-ctas">
-      <a href="#work" class="btn-solid">Explore Portfolio</a>
+      <a href="#work" class="btn-solid">Explore Featured Work</a>
       <a href="#contact" class="btn-line">Get In Touch</a>
       <div class="hero-exif">
         <span class="dot"></span>
@@ -1037,18 +1037,6 @@
   <div class="work-grid" id="workGrid"></div>
 </section>
 
-<section id="categories">
-  <div class="wrap" style="padding-top:80px; padding-bottom:40px;">
-    <div class="section-head reveal" style="padding-top:0;">
-      <div>
-        <span class="eyebrow" style="margin-bottom:12px;"><svg class="mark" style="width:11px;height:11px;"><use href="#sineera-mark"></use></svg> Categories</span>
-        <h2>Portfolio</h2>
-      </div>
-      <p>Explore specialized bodies of photographic work categorized by genre and narrative style.</p>
-    </div>
-  </div>
-  <div class="cat-strip reveal" id="catStrip"></div>
-</section>
 
 <section class="wrap gallery" id="gallery">
   <div class="section-head reveal">
@@ -1288,41 +1276,6 @@
         openLightbox(item.img, item.title, item.location);
       });
       workGrid.appendChild(card);
-    });
-
-    // Render Categories Strip
-    const catStrip = document.getElementById("catStrip");
-    const catKeys = Object.keys(cfg.categories);
-    const catNames = {
-      engagements: "Engagements",
-      portraits: "Portraits",
-      events: "Events",
-      fashion: "Fashion",
-      travel: "Travel",
-      weddings: "Weddings"
-    };
-
-    catKeys.forEach((key) => {
-      const imgUrl = cfg.categories[key];
-      const m = meta[key] || { frame: "F01" };
-      const tile = document.createElement("button");
-      tile.className = "cat-tile reveal";
-      tile.innerHTML = `
-        <span class="bracket tl"></span>
-        <span class="bracket tr"></span>
-        <span class="bracket bl"></span>
-        <span class="bracket br"></span>
-        <img src="${imgUrl}" alt="${catNames[key]}" loading="lazy">
-        <div class="cat-label">
-          <div class="num"><span>${m.frame}</span></div>
-          <div class="name">${catNames[key]}</div>
-          <span class="count">View Collection</span>
-        </div>
-      `;
-      tile.addEventListener("click", () => {
-        openCatGallery(key, catNames[key], m.frame, imgUrl);
-      });
-      catStrip.appendChild(tile);
     });
 
     // Render Gallery (filterable, no duplicate images within or across categories)
