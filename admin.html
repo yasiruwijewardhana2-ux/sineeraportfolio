@@ -160,6 +160,12 @@
   .modal-actions{ display:flex; gap:10px; justify-content:flex-end; margin-top:24px; }
   .stat-repeater-row{ display:grid; grid-template-columns:1fr 1fr auto; gap:10px; margin-bottom:10px; align-items:center; }
 
+  .img-field-row{ display:flex; gap:8px; align-items:stretch; }
+  .img-field-row input{ flex:1; }
+  .upload-btn{ flex:none; display:flex; align-items:center; justify-content:center; }
+  .img-preview{ width:100%; max-height:160px; object-fit:cover; border-radius:var(--radius-sm); margin-top:10px; display:none; border:1px solid var(--line); }
+  .img-preview.show{ display:block; }
+
   @media (max-width:860px){
     #adminApp{ grid-template-columns:1fr; }
     aside{ position:relative; height:auto; }
@@ -264,6 +270,64 @@
     els.modalBody.innerHTML = "";
   }
   els.modalOverlay.addEventListener("click", (e) => { if (e.target === els.modalOverlay) closeModal(); });
+
+  const MAX_UPLOAD_MB = 8;
+
+  function imageFieldHtml(fieldId, label, currentUrl){
+    return `
+      <div class="field">
+        <label>${label}</label>
+        <div class="img-field-row">
+          <input id="${fieldId}" value="${esc(currentUrl || "")}" placeholder="https://… or upload a photo">
+          <label class="btn small upload-btn" for="${fieldId}_file">Upload</label>
+          <input type="file" id="${fieldId}_file" accept="image/*" style="display:none;">
+        </div>
+        <p class="hint" id="${fieldId}_status"></p>
+        <img class="img-preview ${currentUrl ? 'show' : ''}" id="${fieldId}_preview" src="${esc(currentUrl || "")}" alt="">
+      </div>`;
+  }
+
+  function wireImageUpload(fieldId){
+    const fileInput = document.getElementById(`${fieldId}_file`);
+    const urlInput = document.getElementById(fieldId);
+    const status = document.getElementById(`${fieldId}_status`);
+    const preview = document.getElementById(`${fieldId}_preview`);
+    if (!fileInput) return;
+
+    urlInput.addEventListener("input", () => {
+      if (preview) { preview.src = urlInput.value; preview.classList.toggle("show", !!urlInput.value); }
+    });
+
+    fileInput.addEventListener("change", async () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+      if (!client) { status.textContent = "Supabase isn't configured."; status.className = "hint err"; return; }
+      if (file.size > MAX_UPLOAD_MB * 1024 * 1024) {
+        status.textContent = `File too large — max ${MAX_UPLOAD_MB}MB.`;
+        status.className = "hint err";
+        fileInput.value = "";
+        return;
+      }
+      status.textContent = "Uploading…";
+      status.className = "hint";
+      const ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
+      const path = `uploads/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const { error } = await client.storage.from("gallery").upload(path, file, { cacheControl: "3600", upsert: false });
+      if (error) {
+        status.textContent = "Upload failed — " + error.message;
+        status.className = "hint err";
+        fileInput.value = "";
+        return;
+      }
+      const { data } = client.storage.from("gallery").getPublicUrl(path);
+      urlInput.value = data.publicUrl;
+      if (preview) { preview.src = data.publicUrl; preview.classList.add("show"); }
+      status.textContent = "Uploaded ✓";
+      status.className = "hint";
+      fileInput.value = "";
+    });
+  }
+
 
   if (!client) {
     els.loginError.textContent = "Supabase isn't configured yet — check supabase-config.js.";
@@ -475,14 +539,17 @@
       <div class="card">
         <span class="bracket tl"></span><span class="bracket br"></span>
         <div class="field-row">
-          <div class="field"><label>Hero Image — Desktop URL</label><input id="hpDesktop" value="${esc(h.hero_desktop_image || "")}" placeholder="https://…"></div>
-          <div class="field"><label>Hero Image — Mobile URL</label><input id="hpMobile" value="${esc(h.hero_mobile_image || "")}" placeholder="https://…"></div>
+          ${imageFieldHtml("hpDesktop", "Hero Image — Desktop", h.hero_desktop_image)}
+          ${imageFieldHtml("hpMobile", "Hero Image — Mobile", h.hero_mobile_image)}
         </div>
         <div class="field"><label>Eyebrow (optional)</label><input id="hpEyebrow" value="${esc(h.hero_eyebrow || "")}"></div>
         <div class="field"><label>Headline (optional)</label><input id="hpHeading" value="${esc(h.hero_heading || "")}"></div>
         <div class="field"><label>Subheading (optional)</label><textarea id="hpSubheading">${esc(h.hero_subheading || "")}</textarea></div>
         <button class="btn primary" id="hpSave">Save Homepage</button>
       </div>`;
+
+    wireImageUpload("hpDesktop");
+    wireImageUpload("hpMobile");
 
     document.getElementById("hpSave").addEventListener("click", async () => {
       const payload = {
@@ -563,13 +630,14 @@
         <div class="field"><label>Slug (used in URLs, lowercase, no spaces)</label><input id="mSlug" value="${esc(row?.slug || "")}" placeholder="portraits"></div>
         <div class="field"><label>Frame Code</label><input id="mFrame" value="${esc(row?.frame_code || "F0" + (list.length + 1))}"></div>
       </div>
-      <div class="field"><label>Cover Image URL</label><input id="mCover" value="${esc(row?.cover_image_url || "")}" placeholder="https://…"></div>
+      ${imageFieldHtml("mCover", "Cover Image", row?.cover_image_url)}
       <div class="checkbox-row field"><input type="checkbox" id="mPublished" ${row?.published !== false ? "checked" : ""}><label for="mPublished" style="margin:0;">Published (visible on the site)</label></div>
       <p class="hint" id="mHint"></p>
       <div class="modal-actions">
         <button class="btn" id="mCancel">Cancel</button>
         <button class="btn primary" id="mSave">${isEdit ? "Save Changes" : "Add Category"}</button>
       </div>`);
+    wireImageUpload("mCover");
     document.getElementById("mCancel").addEventListener("click", closeModal);
     document.getElementById("mSave").addEventListener("click", async () => {
       const payload = {
@@ -685,7 +753,7 @@
       <div class="field"><label>Category</label>
         <select id="mCat">${catList.map(c => `<option value="${c.id}" ${((row?.category_id || defaultCatId) === c.id) ? "selected" : ""}>${esc(c.name)}</option>`).join("")}</select>
       </div>
-      <div class="field"><label>Image URL</label><input id="mUrl" value="${esc(row?.image_url || "")}" placeholder="https://…"></div>
+      ${imageFieldHtml("mUrl", "Photo", row?.image_url)}
       <div class="field"><label>Title</label><input id="mTitle" value="${esc(row?.title || "")}" placeholder="e.g. Golden Hour Engagement"></div>
       <div class="checkbox-row field"><input type="checkbox" id="mFeatured" ${row?.is_featured ? "checked" : ""}><label for="mFeatured" style="margin:0;">Feature on homepage Work grid</label></div>
       <div class="field"><label>Featured Location Caption (optional)</label><input id="mLoc" value="${esc(row?.featured_location || "")}" placeholder="e.g. Galle Fort"></div>
@@ -695,11 +763,12 @@
         <button class="btn" id="mCancel">Cancel</button>
         <button class="btn primary" id="mSave">${isEdit ? "Save Changes" : "Add Photo"}</button>
       </div>`);
+    wireImageUpload("mUrl");
     document.getElementById("mCancel").addEventListener("click", closeModal);
     document.getElementById("mSave").addEventListener("click", async () => {
       const hint = document.getElementById("mHint");
       const url = document.getElementById("mUrl").value.trim();
-      if (!url) { hint.textContent = "Image URL is required."; hint.className = "hint err"; return; }
+      if (!url) { hint.textContent = "Add a photo — upload a file or paste an image URL."; hint.className = "hint err"; return; }
 
       // duplicate-image guard across every category
       let dupQ = client.from("gallery_images").select("id, title, categories(name)").eq("image_url", url);
@@ -783,7 +852,7 @@
     openModal(`
       <h3>${isEdit ? "Edit" : "Add"} Story</h3>
       <div class="field"><label>Title</label><input id="mTitle" value="${esc(row?.title || "")}"></div>
-      <div class="field"><label>Cover Image URL</label><input id="mCover" value="${esc(row?.cover_image_url || "")}" placeholder="https://…"></div>
+      ${imageFieldHtml("mCover", "Cover Image", row?.cover_image_url)}
       <div class="field"><label>Excerpt (shown on the card)</label><textarea id="mExcerpt">${esc(row?.excerpt || "")}</textarea></div>
       <div class="field"><label>Full Story (shown on "Read More")</label><textarea id="mBody" style="min-height:140px;">${esc(row?.body || "")}</textarea></div>
       <div class="checkbox-row field"><input type="checkbox" id="mPublished" ${row?.published !== false ? "checked" : ""}><label for="mPublished" style="margin:0;">Published</label></div>
@@ -792,6 +861,7 @@
         <button class="btn" id="mCancel">Cancel</button>
         <button class="btn primary" id="mSave">${isEdit ? "Save Changes" : "Add Story"}</button>
       </div>`);
+    wireImageUpload("mCover");
     document.getElementById("mCancel").addEventListener("click", closeModal);
     document.getElementById("mSave").addEventListener("click", async () => {
       const payload = {
@@ -904,8 +974,8 @@
           <div class="field"><label>Photographer Name</label><input id="aName" value="${esc(a.photographer_name || "")}"></div>
           <div class="field"><label>Role Label</label><input id="aRole" value="${esc(a.role_label || "")}"></div>
         </div>
-        <div class="field"><label>Portrait Image URL</label><input id="aPortrait" value="${esc(a.portrait_image_url || "")}" placeholder="https://…"></div>
         <div class="field"><label>Heading</label><input id="aHeading" value="${esc(a.heading || "")}"></div>
+        ${imageFieldHtml("aPortrait", "Portrait Image", a.portrait_image_url)}
         <div class="field"><label>Bio — Intro (optional)</label><textarea id="aIntro">${esc(a.bio_intro || "")}</textarea></div>
         <div class="field"><label>Bio — Body</label><textarea id="aBody">${esc(a.bio_body || "")}</textarea></div>
         <label>Stats</label>
@@ -914,6 +984,8 @@
         <br>
         <button class="btn primary" id="aboutSave">Save About</button>
       </div>`;
+
+    wireImageUpload("aPortrait");
 
     const repeater = document.getElementById("statRepeater");
     function paintStats(list){
