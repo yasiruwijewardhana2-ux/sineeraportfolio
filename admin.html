@@ -214,7 +214,6 @@
       <button data-section="services"><span class="fc">F05</span>Services</button>
       <button data-section="about"><span class="fc">F06</span>About</button>
       <button data-section="settings"><span class="fc">F07</span>Settings</button>
-      <button data-section="inquiries"><span class="fc">F08</span>Inquiries<span class="count" id="navInquiryCount" style="display:none;"></span></button>
     </nav>
     <div class="side-foot">
       <a href="../index.html" target="_blank" class="viewsite">↗ View Live Site</a>
@@ -250,8 +249,7 @@
     logoutBtn: document.getElementById("logoutBtn"),
     modalOverlay: document.getElementById("modalOverlay"),
     modalBody: document.getElementById("modalBody"),
-    toast: document.getElementById("toast"),
-    navInquiryCount: document.getElementById("navInquiryCount")
+    toast: document.getElementById("toast")
   };
 
   function showToast(msg, isErr){
@@ -355,7 +353,6 @@
       els.loginScreen.style.display = "none";
       els.app.classList.add("show");
       navigate("dashboard");
-      refreshInquiryBadge();
     } else {
       els.loginScreen.style.display = "flex";
       els.app.classList.remove("show");
@@ -408,8 +405,7 @@
     stories: renderStories,
     services: renderServices,
     about: renderAbout,
-    settings: renderSettings,
-    inquiries: renderInquiries
+    settings: renderSettings
   };
 
   function navigate(name){
@@ -424,12 +420,6 @@
     const btn = e.target.closest("button[data-section]");
     if (btn) navigate(btn.dataset.section);
   });
-
-  async function refreshInquiryBadge(){
-    const { count } = await client.from("inquiries").select("id", { count: "exact", head: true }).eq("status", "new");
-    if (count) { els.navInquiryCount.style.display = "inline-block"; els.navInquiryCount.textContent = count; }
-    else { els.navInquiryCount.style.display = "none"; }
-  }
 
   /* ============================================================
      GENERIC HELPERS
@@ -489,14 +479,12 @@
      DASHBOARD
      ============================================================ */
   async function renderDashboard(){
-    const [cats, imgs, stories, services, newInq] = await Promise.all([
+    const [cats, imgs, stories, services] = await Promise.all([
       client.from("categories").select("id", { count: "exact", head: true }),
       client.from("gallery_images").select("id", { count: "exact", head: true }),
       client.from("stories").select("id", { count: "exact", head: true }),
-      client.from("services").select("id", { count: "exact", head: true }),
-      client.from("inquiries").select("id", { count: "exact", head: true }).eq("status", "new")
+      client.from("services").select("id", { count: "exact", head: true })
     ]);
-    const { data: recent } = await client.from("inquiries").select("*").order("created_at", { ascending: false }).limit(5);
 
     els.mainPanel.innerHTML = `
       ${panelHead("F00 · Overview", "Dashboard", "A quick look at what's live on the site right now.")}
@@ -505,27 +493,7 @@
         <div class="stat-card"><div class="n">${imgs.count ?? 0}</div><div class="l">Gallery Photos</div></div>
         <div class="stat-card"><div class="n">${stories.count ?? 0}</div><div class="l">Stories</div></div>
         <div class="stat-card"><div class="n">${services.count ?? 0}</div><div class="l">Services</div></div>
-        <div class="stat-card"><div class="n">${newInq.count ?? 0}</div><div class="l">New Inquiries</div></div>
-      </div>
-      <div class="card">
-        <span class="bracket tl"></span><span class="bracket br"></span>
-        <h3 style="font-size:16px; text-transform:none; font-family:var(--ff-serif); font-style:italic; font-weight:400; margin-bottom:16px;">Recent Inquiries</h3>
-        <div class="row-list" id="recentInquiries"></div>
       </div>`;
-
-    const list = document.getElementById("recentInquiries");
-    if (!recent || !recent.length) {
-      list.innerHTML = `<p class="empty-state">No inquiries yet.</p>`;
-    } else {
-      list.innerHTML = recent.map(r => `
-        <div class="row-item">
-          <div class="info">
-            <div class="t">${esc(r.name)} <span style="color:var(--paper-dim); font-weight:300;">— ${esc(r.service_interest || "General")}</span></div>
-            <div class="s">${esc(r.email)} · ${new Date(r.created_at).toLocaleDateString()}</div>
-          </div>
-          <span class="badge ${r.status === 'new' ? 'new' : 'off'}">${esc(r.status)}</span>
-        </div>`).join("");
-    }
   }
 
   /* ============================================================
@@ -1034,7 +1002,6 @@
     { key: "contact_phone", label: "Contact Phone", ph: "+94 74 228 3801" },
     { key: "contact_email", label: "Contact Email", ph: "hello@sineera.com" },
     { key: "location_label", label: "Location Line", ph: "Based in Sri Lanka / Available Worldwide" },
-    { key: "response_time_label", label: "Response Time Line", ph: "Response time within 24 hours" },
     { key: "instagram_url", label: "Instagram URL", ph: "https://instagram.com/…" },
     { key: "facebook_url", label: "Facebook URL", ph: "https://facebook.com/…" },
     { key: "footer_copyright", label: "Footer Copyright Line", ph: "© 2026 SINEERA. All Rights Reserved." }
@@ -1065,56 +1032,6 @@
       if (error) return showToast("Couldn't save — " + error.message, true);
       showToast("Settings saved");
     });
-  }
-
-  /* ============================================================
-     INQUIRIES
-     ============================================================ */
-  async function renderInquiries(){
-    const { data: rows } = await client.from("inquiries").select("*").order("created_at", { ascending: false });
-    const list = rows || [];
-    els.mainPanel.innerHTML = panelHead("F08 · Inbox", "Inquiries", "Messages submitted through the site's contact form.");
-    const wrap = document.createElement("div");
-    wrap.className = "row-list";
-    wrap.id = "inqList";
-    els.mainPanel.appendChild(wrap);
-    paintInquiries(list);
-    refreshInquiryBadge();
-  }
-
-  function paintInquiries(list){
-    const wrap = document.getElementById("inqList");
-    if (!list.length) { wrap.innerHTML = `<p class="empty-state">No inquiries yet.</p>`; return; }
-    wrap.innerHTML = list.map(r => `
-      <div class="card" style="padding:16px 18px; margin-bottom:10px;">
-        <div style="display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; align-items:center;">
-          <div>
-            <div style="font-size:14.5px;">${esc(r.name)} <span style="color:var(--paper-dim); font-weight:300;">— ${esc(r.email)}</span></div>
-            <div class="s" style="font-family:var(--ff-mono); font-size:11px; color:var(--paper-dim); margin-top:3px;">${esc(r.service_interest || "General")} · ${new Date(r.created_at).toLocaleString()}</div>
-          </div>
-          <span class="badge ${r.status === 'new' ? 'new' : (r.status === 'archived' ? 'off' : 'on')}">${esc(r.status)}</span>
-        </div>
-        <p style="margin-top:12px; font-size:13.5px; color:var(--paper-dim); line-height:1.6;">${esc(r.message)}</p>
-        <div class="actions" style="margin-top:14px;">
-          ${r.status !== 'read' ? `<button class="btn small" data-status="read" data-id="${r.id}">Mark Read</button>` : ""}
-          ${r.status !== 'archived' ? `<button class="btn small" data-status="archived" data-id="${r.id}">Archive</button>` : ""}
-          ${r.status !== 'new' ? `<button class="btn small" data-status="new" data-id="${r.id}">Mark New</button>` : ""}
-          <button class="btn small danger" data-del="${r.id}">Delete</button>
-        </div>
-      </div>`).join("");
-
-    wrap.querySelectorAll("[data-status]").forEach(b => b.addEventListener("click", async () => {
-      const { error } = await client.from("inquiries").update({ status: b.dataset.status }).eq("id", b.dataset.id);
-      if (error) return showToast("Couldn't update", true);
-      renderInquiries();
-    }));
-    wrap.querySelectorAll("[data-del]").forEach(b => b.addEventListener("click", async () => {
-      if (!confirmDelete("this inquiry")) return;
-      const { error } = await client.from("inquiries").delete().eq("id", b.dataset.del);
-      if (error) return showToast("Couldn't delete", true);
-      showToast("Deleted");
-      renderInquiries();
-    }));
   }
 
   boot();
