@@ -8,14 +8,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="./supabase-config.js"></script>
 </head>
 <body>
 
 <!-- ============================================================
-     IMAGE CONFIG (centralized — edit here to replace any photo)
+     DEFAULT CONTENT (fallback only — used if Supabase can't be
+     reached, so the site never breaks. The live source of truth
+     is the database, edited from /admin/)
      ============================================================ -->
 <script id="sineera-image-config">
-  window.SINEERA_IMAGES = {
+  window.SINEERA_DEFAULTS = {
     hero: {
       desktop: "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462670/WhatsApp_Image_2026-08-23_at_9.56.10_AM_1.jpg",
       mobile:  "https://res.cloudinary.com/xkkm3asr/image/upload/v1787462670/WhatsApp_Image_2026-08-23_at_9.56.10_AM_1.jpg"
@@ -76,6 +80,150 @@
     travel:      { frame: "F05" },
     weddings:    { frame: "F06" }
   };
+  window.SINEERA_DEFAULTS.meta = window.SINEERA_META;
+
+  window.SINEERA_DEFAULTS.about = {
+    name: "Keshan Anupama",
+    role: "Photographer",
+    heading: "Framing Truth Through Light &amp; Shadow",
+    bioIntro: "",
+    bioBody: "Every frame is approached with rigorous attention to detail, balancing natural illumination with intentional composition to create timeless visual documents.",
+    stats: [
+      { value: "2+", label: "Years Active" },
+      { value: "20+", label: "Projects Delivered" },
+      { value: "100%", label: "Dedication" }
+    ]
+  };
+
+  window.SINEERA_DEFAULTS.services = [
+    { name: "Wedding &amp; Engagements", description: "" },
+    { name: "Portraiture &amp; Editorial", description: "" },
+    { name: "Events &amp; Commercial", description: "" },
+    { name: "Travel &amp; Landscape", description: "" }
+  ];
+
+  window.SINEERA_DEFAULTS.homepage = { eyebrow: "", heading: "", subheading: "" };
+
+  window.SINEERA_DEFAULTS.settings = {
+    contact_phone: "+94 74 228 3801",
+    contact_email: "",
+    location_label: "Based in Sri Lanka / Available Worldwide",
+    response_time_label: "Response time within 24 hours",
+    instagram_url: "",
+    facebook_url: "",
+    footer_copyright: "&copy; 2026 SINEERA. All Rights Reserved."
+  };
+
+  window.SINEERA_DEFAULTS.stories = [];
+
+  /* ============================================================
+     LIVE DATA LOADER
+     Pulls all editable content from Supabase (managed from
+     /admin/). If the request fails for any reason — offline,
+     project not configured yet, etc. — the site quietly falls
+     back to the defaults above so nothing ever breaks.
+     ============================================================ */
+  window.SINEERA_READY = (async function loadSiteData() {
+    const d = window.SINEERA_DEFAULTS;
+    const fallback = {
+      images: { hero: d.hero, photographerPortrait: d.photographerPortrait, categories: d.categories, featured: d.featured, gallery: d.gallery },
+      meta: d.meta,
+      about: d.about,
+      services: d.services,
+      homepage: d.homepage,
+      settings: d.settings,
+      stories: d.stories
+    };
+
+    try {
+      if (!window.SUPABASE_URL || !window.SUPABASE_ANON_KEY || !window.supabase) {
+        return fallback;
+      }
+      const client = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+      window.SINEERA_CLIENT = client;
+
+      const [catRes, imgRes, svcRes, aboutRes, homeRes, settingsRes, storiesRes] = await Promise.all([
+        client.from("categories").select("*").eq("published", true).order("sort_order"),
+        client.from("gallery_images").select("*, categories(slug,name,frame_code)").eq("published", true).order("sort_order"),
+        client.from("services").select("*").eq("published", true).order("sort_order"),
+        client.from("about_content").select("*").eq("id", 1).maybeSingle(),
+        client.from("homepage_content").select("*").eq("id", 1).maybeSingle(),
+        client.from("settings").select("*"),
+        client.from("stories").select("*").eq("published", true).order("sort_order")
+      ]);
+
+      const cats = catRes.data || [];
+      const imgs = imgRes.data || [];
+      if (!cats.length) return fallback; // project exists but hasn't been seeded/configured yet
+
+      const categories = {};
+      const meta = {};
+      cats.forEach(c => {
+        categories[c.slug] = c.cover_image_url || "";
+        meta[c.slug] = { frame: c.frame_code || "F01", name: c.name };
+      });
+
+      const gallery = {};
+      cats.forEach(c => { gallery[c.name] = []; });
+      imgs.forEach(row => {
+        const catName = row.categories ? row.categories.name : null;
+        if (!catName) return;
+        if (!gallery[catName]) gallery[catName] = [];
+        gallery[catName].push({ img: row.image_url, title: row.title || "" });
+      });
+
+      const featured = imgs
+        .filter(row => row.is_featured)
+        .sort((a, b) => (a.featured_sort_order || 0) - (b.featured_sort_order || 0))
+        .map(row => ({
+          title: row.title || "",
+          category: row.categories ? row.categories.name : "",
+          location: row.featured_location || "",
+          img: row.image_url
+        }));
+
+      const settings = {};
+      (settingsRes.data || []).forEach(row => { settings[row.key] = row.value; });
+
+      const home = homeRes.data || {};
+      const about = aboutRes.data || {};
+
+      return {
+        images: {
+          hero: {
+            desktop: home.hero_desktop_image || d.hero.desktop,
+            mobile: home.hero_mobile_image || d.hero.mobile
+          },
+          photographerPortrait: about.portrait_image_url || d.photographerPortrait,
+          categories,
+          featured: featured.length ? featured : fallback.images.featured,
+          gallery
+        },
+        meta,
+        about: about.heading ? {
+          name: about.photographer_name,
+          role: about.role_label,
+          heading: about.heading,
+          bioIntro: about.bio_intro || "",
+          bioBody: about.bio_body || "",
+          stats: about.stats && about.stats.length ? about.stats : d.about.stats
+        } : fallback.about,
+        services: (svcRes.data && svcRes.data.length) ? svcRes.data.map(s => ({ name: s.name, description: s.description || "" })) : fallback.services,
+        homepage: {
+          eyebrow: home.hero_eyebrow || "",
+          heading: home.hero_heading || "",
+          subheading: home.hero_subheading || ""
+        },
+        settings: Object.keys(settings).length ? Object.assign({}, fallback.settings, settings) : fallback.settings,
+        stories: (storiesRes.data || []).map(s => ({
+          id: s.id, title: s.title, excerpt: s.excerpt || "", body: s.body || "", cover: s.cover_image_url || ""
+        }))
+      };
+    } catch (err) {
+      console.warn("SINEERA: falling back to default content —", err);
+      return fallback;
+    }
+  })();
 </script>
 
 <style>
@@ -558,6 +706,34 @@
   @media (max-width:900px){ .gallery-grid{ columns:2 200px; } }
   @media (max-width:560px){ .gallery-grid{ columns:1; } }
 
+  .stories{ padding:clamp(80px,10vw,130px) 0; border-top:1px solid var(--line); }
+  .story-row{ display:flex; gap:22px; overflow-x:auto; padding-bottom:8px; scroll-snap-type:x proximity; }
+  .story-row::-webkit-scrollbar{ height:5px; }
+  .story-row::-webkit-scrollbar-thumb{ background:var(--line); border-radius:4px; }
+  .story-card{
+    position:relative; flex:0 0 clamp(260px,32vw,360px); scroll-snap-align:start;
+    border:1px solid var(--line); border-radius:var(--btn-radius); overflow:hidden;
+    background:rgba(243,239,232,0.02); cursor:pointer;
+    transition:border-color .3s ease, transform .3s ease;
+  }
+  .story-card:hover{ border-color:rgba(245,168,60,0.4); transform:translateY(-3px); }
+  .story-card .story-cover{ position:relative; aspect-ratio:4/3; overflow:hidden; }
+  .story-card .story-cover img{ transition:transform 1s cubic-bezier(.16,.8,.3,1); }
+  .story-card:hover .story-cover img{ transform:scale(1.06); }
+  .story-card .story-cover::after{ content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(10,10,9,0.85), rgba(10,10,9,0) 55%); }
+  .story-card .story-frame{
+    position:absolute; top:14px; left:14px; z-index:2; font-family:var(--ff-mono); font-size:10.5px;
+    letter-spacing:0.14em; color:var(--ember-2); border:1px solid rgba(245,168,60,0.4);
+    border-radius:2px; padding:4px 7px; background:rgba(10,10,9,0.5); backdrop-filter:blur(4px);
+  }
+  .story-card .story-body{ padding:20px 20px 24px; }
+  .story-card h3{ font-size:20px; text-transform:none; font-family:var(--ff-serif); font-style:italic; font-weight:400; letter-spacing:0; line-height:1.25; margin-bottom:10px; }
+  .story-card .story-excerpt{ color:var(--paper-dim); font-size:13.5px; line-height:1.7; }
+  .story-card .story-full{ color:var(--paper-dim); font-size:13.5px; line-height:1.8; margin-top:12px; display:none; }
+  .story-card.expanded .story-full{ display:block; }
+  .story-card .story-toggle{ display:inline-block; margin-top:14px; font-family:var(--ff-mono); font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ember-2); }
+  .stories-empty{ color:var(--paper-dim); font-family:var(--ff-serif); font-style:italic; font-size:17px; }
+
   .about{ padding:clamp(90px,11vw,150px) 0; border-top:1px solid var(--line); }
   .about-grid{ display:grid; grid-template-columns:0.85fr 1.15fr; gap:clamp(40px,6vw,90px); align-items:center; }
   .about-portrait{ position:relative; aspect-ratio:4/5; overflow:hidden; border-radius:2px; }
@@ -620,6 +796,10 @@
   .field input:focus, .field select:focus, .field textarea:focus{ outline:none; border-color:var(--ember-2); }
   .field textarea{ resize:vertical; min-height:70px; }
   .form .btn-solid{ align-self:flex-start; margin-top:8px; cursor:pointer; font-family:inherit; outline:none; }
+  .form .btn-solid:disabled{ opacity:0.55; cursor:default; }
+  .form-status{ font-family:var(--ff-mono); font-size:11.5px; letter-spacing:0.04em; color:var(--paper-dim); min-height:16px; }
+  .form-status.ok{ color:var(--ember-2); }
+  .form-status.err{ color:#e0755a; }
 
   footer{ border-top:1px solid var(--line); padding:44px 0; position:relative; z-index:2; }
   .foot-inner{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
@@ -775,6 +955,7 @@
     <a href="#work">Work</a>
     <a href="#categories">Portfolio</a>
     <a href="#gallery">Gallery</a>
+    <a href="#stories">Stories</a>
     <a href="#about">About</a>
     <a href="#services">Services</a>
     <a href="#contact">Contact</a>
@@ -792,6 +973,7 @@
   <a href="#work">Work</a>
   <a href="#categories">Portfolio</a>
   <a href="#gallery">Gallery</a>
+  <a href="#stories">Stories</a>
   <a href="#about">About</a>
   <a href="#services">Services</a>
   <a href="#contact">Contact</a>
@@ -880,6 +1062,19 @@
   <div class="gallery-grid" id="galleryGrid"></div>
 </section>
 
+<section class="stories" id="stories">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow" style="margin-bottom:12px;"><svg class="mark" style="width:11px;height:11px;"><use href="#sineera-mark"></use></svg> Field Notes</span>
+        <h2>Stories</h2>
+      </div>
+      <p>Notes from behind the lens — the moments and thinking behind select frames.</p>
+    </div>
+    <div class="story-row reveal" id="storyRow"></div>
+  </div>
+</section>
+
 <section class="about" id="about">
   <div class="wrap">
     <div class="about-grid">
@@ -890,29 +1085,16 @@
         <span class="bracket br"></span>
         <img id="photographerImg" src="" alt="Photographer">
         <div class="about-tag">
-          <div class="who">Keshan Anupama</div>
-          <div class="role">Photographer</div>
+          <div class="who" id="aboutName">Keshan Anupama</div>
+          <div class="role" id="aboutRole">Photographer</div>
         </div>
       </div>
       <div class="reveal">
         <span class="eyebrow" style="margin-bottom:14px;"><svg class="mark" style="width:11px;height:11px;"><use href="#sineera-mark"></use></svg> The Vision</span>
-        <h2>Framing Truth Through Light &amp; Shadow</h2>
-        <p></p>
-        <p>Every frame is approached with rigorous attention to detail, balancing natural illumination with intentional composition to create timeless visual documents.</p>
-        <div class="about-stats">
-          <div class="stat">
-            <b>2+</b>
-            <span>Years Active</span>
-          </div>
-          <div class="stat">
-            <b>20+</b>
-            <span>Projects Delivered</span>
-          </div>
-          <div class="stat">
-            <b>100%</b>
-            <span>Dedication</span>
-          </div>
-        </div>
+        <h2 id="aboutHeading">Framing Truth Through Light &amp; Shadow</h2>
+        <p id="aboutBioIntro"></p>
+        <p id="aboutBioBody">Every frame is approached with rigorous attention to detail, balancing natural illumination with intentional composition to create timeless visual documents.</p>
+        <div class="about-stats" id="aboutStats"></div>
       </div>
     </div>
   </div>
@@ -927,28 +1109,7 @@
       </div>
       <p>services designed to meet high-end commercial and personal requirements.</p>
     </div>
-    <div class="reveal">
-      <div class="service-row">
-        <div class="service-tag"></div>
-        <h3>Wedding &amp; Engagements</h3>
-        <p></p>
-      </div>
-      <div class="service-row">
-        <div class="service-tag"></div>
-        <h3>Portraiture &amp; Editorial</h3>
-        <p></p>
-      </div>
-      <div class="service-row">
-        <div class="service-tag"></div>
-        <h3>Events &amp; Commercial</h3>
-        <p></p>
-      </div>
-      <div class="service-row">
-        <div class="service-tag"></div>
-        <h3>Travel &amp; Landscape</h3>
-        <p></p>
-      </div>
-    </div>
+    <div class="reveal" id="servicesList"></div>
   </div>
 </section>
 
@@ -962,15 +1123,15 @@
         <span class="eyebrow" style="margin-bottom:14px;"><svg class="mark" style="width:11px;height:11px;"><use href="#sineera-mark"></use></svg> Get In Touch</span>
         <h2>Let's Create Together</h2>
         <div class="contact-info">
-       <a href="tel:+94 74 228 3801">+94 74 228 3801</a>
+          <a id="contactPhone" href="tel:">+94 74 228 3801</a>
         </div>
         <div class="contact-meta">
-          <span>Based in Sri Lanka / Available Worldwide</span><br>
-          <span>Response time within 24 hours</span>
+          <span id="contactLocation">Based in Sri Lanka / Available Worldwide</span><br>
+          <span id="contactResponseTime">Response time within 24 hours</span>
         </div>
       </div>
       <div class="reveal">
-        <form class="form" id="contactForm" onsubmit="event.preventDefault(); alert('Thank you. Your message has been sent.');">
+        <form class="form" id="contactForm">
           <div class="field">
             <label for="name">Your Name</label>
             <input type="text" id="name" required placeholder="John Doe">
@@ -981,18 +1142,14 @@
           </div>
           <div class="field">
             <label for="service">Service Required</label>
-            <select id="service">
-              <option>Wedding &amp; Engagements</option>
-              <option>Portraiture &amp; Editorial</option>
-              <option>Events &amp; Commercial</option>
-              <option>Travel &amp; Landscape</option>
-            </select>
+            <select id="service"></select>
           </div>
           <div class="field">
             <label for="message">Project Details</label>
             <textarea id="message" required placeholder="Tell us about your vision..."></textarea>
           </div>
-          <button type="submit" class="btn-solid">Send Message</button>
+          <button type="submit" class="btn-solid" id="contactSubmitBtn">Send Message</button>
+          <p class="form-status" id="contactStatus" role="status" aria-live="polite"></p>
         </form>
       </div>
     </div>
@@ -1010,11 +1167,12 @@
         <a href="#work">Work</a>
         <a href="#categories">Portfolio</a>
         <a href="#gallery">Gallery</a>
+        <a href="#stories">Stories</a>
         <a href="#about">About</a>
         <a href="#services">Services</a>
         <a href="#contact">Contact</a>
       </div>
-      <div class="foot-copy">
+      <div class="foot-copy" id="footCopy">
         &copy; 2026 SINEERA. All Rights Reserved.
       </div>
     </div>
@@ -1049,14 +1207,100 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", async () => {
+    // Wait for live content from Supabase (falls back to defaults automatically)
+    const siteData = await window.SINEERA_READY;
+    window.SINEERA_IMAGES = siteData.images;
+    window.SINEERA_META = siteData.meta;
+
     // Populate images from config
     const cfg = window.SINEERA_IMAGES;
     const meta = window.SINEERA_META;
 
     document.getElementById("heroImg").src = cfg.hero.desktop;
     document.getElementById("photographerImg").src = cfg.photographerPortrait;
-    document.getElementById("contactBgImg").src = cfg.categories.travel;
+    const travelCoverFallback = Object.values(cfg.categories)[0] || "";
+    document.getElementById("contactBgImg").src = cfg.categories.travel || travelCoverFallback;
+
+    // ---- About ----
+    const about = siteData.about;
+    document.getElementById("aboutName").textContent = about.name || "";
+    document.getElementById("aboutRole").textContent = about.role || "";
+    document.getElementById("aboutHeading").innerHTML = about.heading || "";
+    document.getElementById("aboutBioIntro").textContent = about.bioIntro || "";
+    document.getElementById("aboutBioBody").textContent = about.bioBody || "";
+    const aboutStats = document.getElementById("aboutStats");
+    aboutStats.innerHTML = "";
+    (about.stats || []).forEach(s => {
+      const el = document.createElement("div");
+      el.className = "stat";
+      el.innerHTML = `<b>${s.value}</b><span>${s.label}</span>`;
+      aboutStats.appendChild(el);
+    });
+
+    // ---- Services ----
+    const servicesList = document.getElementById("servicesList");
+    servicesList.innerHTML = "";
+    siteData.services.forEach((svc, i) => {
+      const row = document.createElement("div");
+      row.className = "service-row";
+      row.innerHTML = `
+        <div class="service-tag">${String(i + 1).padStart(2, "0")}</div>
+        <h3>${svc.name}</h3>
+        <p>${svc.description || ""}</p>
+      `;
+      servicesList.appendChild(row);
+    });
+
+    // Service dropdown in contact form mirrors live services
+    const serviceSelect = document.getElementById("service");
+    serviceSelect.innerHTML = "";
+    siteData.services.forEach(svc => {
+      const opt = document.createElement("option");
+      opt.textContent = svc.name.replace(/&amp;/g, "&");
+      serviceSelect.appendChild(opt);
+    });
+
+    // ---- Stories ----
+    const storiesSection = document.getElementById("stories");
+    const storyRow = document.getElementById("storyRow");
+    storyRow.innerHTML = "";
+    if (!siteData.stories.length) {
+      storiesSection.style.display = "none";
+    } else {
+      siteData.stories.forEach((story, i) => {
+        const card = document.createElement("div");
+        card.className = "story-card";
+        card.innerHTML = `
+          <div class="story-cover">
+            <span class="story-frame">S${String(i + 1).padStart(2, "0")}</span>
+            ${story.cover ? `<img src="${story.cover}" alt="${story.title}" loading="lazy">` : ""}
+          </div>
+          <div class="story-body">
+            <h3>${story.title}</h3>
+            <p class="story-excerpt">${story.excerpt}</p>
+            <p class="story-full">${story.body}</p>
+            <span class="story-toggle">Read More</span>
+          </div>
+        `;
+        card.addEventListener("click", () => {
+          const expanded = card.classList.toggle("expanded");
+          card.querySelector(".story-toggle").textContent = expanded ? "Close" : "Read More";
+        });
+        storyRow.appendChild(card);
+      });
+    }
+
+    // ---- Settings-driven contact info & footer ----
+    const settings = siteData.settings;
+    const phoneEl = document.getElementById("contactPhone");
+    if (settings.contact_phone) {
+      phoneEl.textContent = settings.contact_phone;
+      phoneEl.href = `tel:${settings.contact_phone.replace(/\s+/g, "")}`;
+    }
+    document.getElementById("contactLocation").textContent = settings.location_label || "";
+    document.getElementById("contactResponseTime").textContent = settings.response_time_label || "";
+    document.getElementById("footCopy").innerHTML = settings.footer_copyright || "";
 
     // Render Featured Work
     const workGrid = document.getElementById("workGrid");
@@ -1285,6 +1529,42 @@
         closeLightboxFunc();
         closeCatGalleryFunc();
         mobileMenu.classList.remove("open");
+      }
+    });
+
+    // ---- Contact form → inquiries table ----
+    const contactForm = document.getElementById("contactForm");
+    const contactStatus = document.getElementById("contactStatus");
+    const contactSubmitBtn = document.getElementById("contactSubmitBtn");
+
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const payload = {
+        name: document.getElementById("name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        service_interest: serviceSelect.value || "",
+        message: document.getElementById("message").value.trim()
+      };
+
+      contactSubmitBtn.disabled = true;
+      contactSubmitBtn.textContent = "Sending…";
+      contactStatus.className = "form-status";
+      contactStatus.textContent = "";
+
+      try {
+        if (!window.SINEERA_CLIENT) throw new Error("no-client");
+        const { error } = await window.SINEERA_CLIENT.from("inquiries").insert(payload);
+        if (error) throw error;
+        contactStatus.textContent = "Thank you — your message has been sent. We'll reply within 24 hours.";
+        contactStatus.className = "form-status ok";
+        contactForm.reset();
+      } catch (err) {
+        console.warn("SINEERA: inquiry submit failed —", err);
+        contactStatus.textContent = "Something went wrong sending your message. Please email or call us directly.";
+        contactStatus.className = "form-status err";
+      } finally {
+        contactSubmitBtn.disabled = false;
+        contactSubmitBtn.textContent = "Send Message";
       }
     });
   });
